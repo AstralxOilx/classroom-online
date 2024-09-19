@@ -1,0 +1,130 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  user_id    Int       @id @default(autoincrement())
+  user_name  String    @db.VarChar(50)
+  email      String    @unique @db.VarChar(100)
+  password   String    @db.VarChar(255)
+  role       Role       
+  status     Status    @default(pending)
+  created_at DateTime  @default(now())
+  updated_at DateTime  @updatedAt
+  last_login DateTime?
+
+  classrooms ClassRoom[]
+  messages   ChatMessage[]
+  notifications Notification[]
+  assignments Assignment[]
+  submissions Submission[]
+  streams    Stream[]
+  classroomStudents ClassroomStudent[]
+}
+
+model ClassRoom {
+  class_id    Int       @id @default(autoincrement())
+  class_name  String    @db.VarChar(100)
+  teacher_id  Int
+  description String?
+  created_at  DateTime  @default(now())
+  updated_at  DateTime  @updatedAt
+
+  teacher      User     @relation(fields: [teacher_id], references: [user_id], onDelete: Cascade)
+  students     ClassroomStudent[]
+  assignments  Assignment[]
+  streams      Stream[]
+  messages     ChatMessage[]
+}
+
+model ClassroomStudent {
+  id        Int      @id @default(autoincrement())
+  class_id  Int
+  student_id Int
+  joined_at DateTime @default(now())
+
+  classRoom ClassRoom @relation(fields: [class_id], references: [class_id], onDelete: Cascade)
+  student   User      @relation(fields: [student_id], references: [user_id], onDelete: Cascade)
+}
+
+model Assignment {
+  assignment_id Int      @id @default(autoincrement())
+  class_id      Int
+  teacher_id    Int
+  title         String   @db.VarChar(255)
+  description   String?
+  due_date      DateTime?
+  created_at    DateTime @default(now())
+  updated_at    DateTime @updatedAt
+
+  classRoom ClassRoom @relation(fields: [class_id], references: [class_id], onDelete: Cascade)
+  teacher   User      @relation(fields: [teacher_id], references: [user_id], onDelete: Cascade)
+  submissions Submission[]
+}
+
+model Submission {
+  submission_id  Int      @id @default(autoincrement())
+  assignment_id  Int
+  student_id     Int
+  submission_file String?
+  submitted_at   DateTime @default(now())
+  score          Float?
+
+  assignment Assignment @relation(fields: [assignment_id], references: [assignment_id], onDelete: Cascade)
+  student    User       @relation(fields: [student_id], references: [user_id], onDelete: Cascade)
+}
+
+model Stream {
+  stream_id   Int      @id @default(autoincrement())
+  class_id    Int
+  teacher_id  Int
+  stream_url  String   @db.VarChar(255)
+  start_time  DateTime
+  end_time    DateTime?
+
+  classRoom ClassRoom @relation(fields: [class_id], references: [class_id], onDelete: Cascade)
+  teacher   User      @relation(fields: [teacher_id], references: [user_id], onDelete: Cascade)
+}
+
+model ChatMessage {
+  message_id Int      @id @default(autoincrement())
+  class_id   Int
+  sender_id  Int
+  message    String   @db.Text
+  sent_at    DateTime @default(now())
+
+  classRoom ClassRoom @relation(fields: [class_id], references: [class_id], onDelete: Cascade)
+  sender    User      @relation(fields: [sender_id], references: [user_id], onDelete: Cascade)
+}
+
+model Notification {
+  notification_id Int      @id @default(autoincrement())
+  user_id         Int
+  message         String   @db.Text
+  is_read         Boolean  @default(false)
+  created_at      DateTime @default(now())
+
+  user User @relation(fields: [user_id], references: [user_id], onDelete: Cascade)
+}
+
+enum Role {
+  student
+  teacher
+}
+
+enum Status {
+  pending
+  active
+  inactive
+}
