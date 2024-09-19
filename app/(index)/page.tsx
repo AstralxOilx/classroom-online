@@ -8,103 +8,105 @@ import { useRouter } from 'next/navigation';
 import { LogIn, Eye, EyeOff } from "lucide-react";
 
 import {
-    Dialog,
-    DialogContent,
-    DialogDescription,
-    DialogHeader,
-    DialogTitle,
-    DialogTrigger,
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
 } from "@/components/ui/dialog"
 import { Button } from '@/components/ui/button';
 
 
 export default function SignUp() {
 
-    const router = useRouter();
-    const [isShowPassword, setIsShowPassword] = useState(false);
-    const [isModalOpen, setIsModalOpen] = useState(false);
+  const router = useRouter();
+  const [isShowPassword, setIsShowPassword] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
-
-
-    const [message, setMessage] = useState<string[]>(Array(6).fill(''));
-    const [notificationBox, setNotificationBox] = useState('');
-
-    const updateItemAtIndex = (index: number, value: string) => {
-        if (index < 0 || index >= message.length) {
-            console.error('Index out of bounds');
-            return;
-        }
-
-        setMessage(prevMessages => {
-            const newMessages = [...prevMessages];
-            newMessages[index] = value;
-            return newMessages;
-        });
-    };
-
-    const isValidEmail = (email: string): boolean => {
-        // ใช้ regular expression ตรวจสอบรูปแบบอีเมล
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        return emailRegex.test(email);
-    };
-
-    const isValidPassword = (password: string): boolean => {
-        const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*(),.?":{}|<>]).{8,}$/;
-        return regex.test(password);
-    };
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
 
 
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        e.preventDefault();
-        const { name, value } = e.target;
-        switch (name) {
-            case 'email':
-                if (isValidEmail(value)) {
-                    setEmail(value);
-                    updateItemAtIndex(0, '');
-                } else {
-                    updateItemAtIndex(0, 'Please provide a valid email format. example(example@Email.com).');
-                }
-        }
+  const [message, setMessage] = useState<string[]>(Array(6).fill(''));
+  const [notificationBox, setNotificationBox] = useState('');
+
+  const updateItemAtIndex = (index: number, value: string) => {
+    if (index < 0 || index >= message.length) {
+      console.error('Index out of bounds');
+      return;
     }
 
-    const handleSubmit = async (e: React.MouseEvent<HTMLButtonElement>) => {
-        e.preventDefault();
-        console.warn(`email :${email} password : ${password}`);
+    setMessage(prevMessages => {
+      const newMessages = [...prevMessages];
+      newMessages[index] = value;
+      return newMessages;
+    });
+  };
 
-      
-        if (email && password) {
-            try {
-                const response = await axios.post('/api/sign_in', {
-                    email: email,
-                    password: password,
-                });
-                router.push("/");
-            } catch (error) {
-                if (axios.isAxiosError(error)) {
-                    const statusAPI = error.response?.status;
-                    const messageAPI = error.response?.data?.error || 'An unexpected error occurred';
+  const isValidEmail = (email: string): boolean => {
+    // ใช้ regular expression ตรวจสอบรูปแบบอีเมล
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  };
+
+  const isValidPassword = (password: string): boolean => {
+    const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*(),.?":{}|<>]).{8,}$/;
+    return regex.test(password);
+  };
 
 
-                    updateItemAtIndex(1, `Error ${statusAPI}: ${messageAPI}`);
-                    setNotificationBox('text-md text-rose-600 bg-primary/20 p-5 rounded-md font-bold');
-                    updateItemAtIndex(0,'');
-
-                } else {
-
-                    updateItemAtIndex(1, 'An unexpected error occurred');
-                    setNotificationBox('text-md text-rose-600 bg-primary/20 p-5 rounded-md font-bold');
-
-                }
-            }
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    e.preventDefault();
+    const { name, value } = e.target;
+    switch (name) {
+      case 'email':
+        if (isValidEmail(value)) {
+          setEmail(value);
+          updateItemAtIndex(0, '');
         } else {
-            setIsModalOpen(false);
-            updateItemAtIndex(1, 'Please fill in the information correctly.');
-            setNotificationBox('text-md text-rose-600 bg-primary/20 p-5 rounded-md font-bold');
+          updateItemAtIndex(0, 'Please provide a valid email format. example(example@Email.com).');
         }
-    };
+      case 'password':
+        setPassword(value);
+    }
+  }
+
+  const handleSubmit = async (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    console.warn(`email :${email} password : ${password}`);
+
+
+    if (email && password) {
+      try {
+        const response = await axios.post('/api/sign_in', {
+          email: email,
+          password: password,
+        });
+        router.push("/");
+      } catch (error) {
+        if (axios.isAxiosError(error)) {
+          const statusAPI = error.response?.status;
+          const messageAPI = error.response?.data?.error || 'An unexpected error occurred';
+
+
+          updateItemAtIndex(1, `Error ${statusAPI}: ${messageAPI}`);
+          setNotificationBox('text-md text-rose-600 bg-primary/20 p-5 rounded-md font-bold');
+          updateItemAtIndex(0, '');
+
+        } else {
+
+          updateItemAtIndex(1, 'An unexpected error occurred');
+          setNotificationBox('text-md text-rose-600 bg-primary/20 p-5 rounded-md font-bold');
+
+        }
+      }
+    } else {
+      setIsModalOpen(false);
+      updateItemAtIndex(1, 'Please fill in the information correctly.');
+      setNotificationBox('text-md text-rose-600 bg-primary/20 p-5 rounded-md font-bold');
+    }
+  };
 
 
   return (
@@ -121,23 +123,23 @@ export default function SignUp() {
                 <InputField onChange={handleChange} type='email' label='email' variant='floating' name='email' id='email' icon='mail' />
                 <p className={'text-sm text-rose-600 font-bold'}>{message[0]}</p>
                 <div className='relative'>
-                                <InputField
-                                    onChange={handleChange}
-                                    type={isShowPassword ? 'text' : 'password'}
-                                    label='Password'
-                                    variant='floating'
-                                    name='password'
-                                    id='password'
-                                    icon='password'
-                                />
-                                <button
-                                    type="button"
-                                    onClick={() => { isShowPassword ? setIsShowPassword(false) : setIsShowPassword(true); }}
-                                    className='absolute right-2 top-2'
-                                >
-                                    {isShowPassword ? <Eye size={24} className='text-primary/50' /> : <EyeOff size={24} className='text-primary/50' />}
-                                </button>
-                            </div>
+                  <InputField
+                    onChange={handleChange}
+                    type={isShowPassword ? 'text' : 'password'}
+                    label='Password'
+                    variant='floating'
+                    name='password'
+                    id='password'
+                    icon='password'
+                  />
+                  <button
+                    type="button"
+                    onClick={() => { isShowPassword ? setIsShowPassword(false) : setIsShowPassword(true); }}
+                    className='absolute right-2 top-2'
+                  >
+                    {isShowPassword ? <Eye size={24} className='text-primary/50' /> : <EyeOff size={24} className='text-primary/50' />}
+                  </button>
+                </div>
                 <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
                   <DialogTrigger asChild>
                     <div className='flex justify-center items-center w-[9rem] py-[6px] text-white mt-5
