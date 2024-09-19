@@ -42,6 +42,7 @@ export default function SignUp() {
     const [message, setMessage] = useState<string[]>(Array(6).fill(''));
     const [notificationBox, setNotificationBox] = useState('');
 
+
     const updateItemAtIndex = (index: number, value: string) => {
         if (index < 0 || index >= message.length) {
             console.error('Index out of bounds');
