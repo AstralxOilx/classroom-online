@@ -1,29 +1,23 @@
-/*
-  Warnings:
-
-  - You are about to drop the column `picture` on the `User` table. All the data in the column will be lost.
-  - You are about to alter the column `user_name` on the `User` table. The data in that column could be lost. The data in that column will be cast from `Text` to `VarChar(50)`.
-  - You are about to alter the column `email` on the `User` table. The data in that column could be lost. The data in that column will be cast from `Text` to `VarChar(100)`.
-  - You are about to alter the column `password` on the `User` table. The data in that column could be lost. The data in that column will be cast from `Text` to `VarChar(255)`.
-  - The `status` column on the `User` table would be dropped and recreated. This will lead to data loss if there is data in the column.
-  - Changed the type of `role` on the `User` table. No cast exists, the column would be dropped and recreated, which cannot be done if there is data, since the column is required.
-
-*/
 -- CreateEnum
 CREATE TYPE "Role" AS ENUM ('student', 'teacher');
 
 -- CreateEnum
 CREATE TYPE "Status" AS ENUM ('pending', 'active', 'inactive');
 
--- AlterTable
-ALTER TABLE "User" DROP COLUMN "picture",
-ALTER COLUMN "user_name" SET DATA TYPE VARCHAR(50),
-ALTER COLUMN "email" SET DATA TYPE VARCHAR(100),
-ALTER COLUMN "password" SET DATA TYPE VARCHAR(255),
-DROP COLUMN "status",
-ADD COLUMN     "status" "Status" NOT NULL DEFAULT 'pending',
-DROP COLUMN "role",
-ADD COLUMN     "role" "Role" NOT NULL;
+-- CreateTable
+CREATE TABLE "User" (
+    "user_id" SERIAL NOT NULL,
+    "user_name" VARCHAR(50) NOT NULL,
+    "email" VARCHAR(100) NOT NULL,
+    "password" VARCHAR(255) NOT NULL,
+    "role" "Role" NOT NULL,
+    "status" "Status" NOT NULL DEFAULT 'pending',
+    "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updated_at" TIMESTAMP(3) NOT NULL,
+    "last_login" TIMESTAMP(3),
+
+    CONSTRAINT "User_pkey" PRIMARY KEY ("user_id")
+);
 
 -- CreateTable
 CREATE TABLE "ClassRoom" (
@@ -106,6 +100,9 @@ CREATE TABLE "Notification" (
 
     CONSTRAINT "Notification_pkey" PRIMARY KEY ("notification_id")
 );
+
+-- CreateIndex
+CREATE UNIQUE INDEX "User_email_key" ON "User"("email");
 
 -- AddForeignKey
 ALTER TABLE "ClassRoom" ADD CONSTRAINT "ClassRoom_teacher_id_fkey" FOREIGN KEY ("teacher_id") REFERENCES "User"("user_id") ON DELETE CASCADE ON UPDATE CASCADE;

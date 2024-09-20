@@ -81,11 +81,11 @@ const InputField: React.FC<InputFieldProps> = ({
         <div className="absolute ">
           {getIcon()}
         </div>
-        <input
+        <input 
           type={type}
           name={name}
           id={id}
-          className={`input pl-10 ${getSizeClass()} ${getVariantClass()}`}
+          className={`input pl-10  ${getSizeClass()} ${getVariantClass()}`}
           placeholder=''
           required
           onChange={onChange}

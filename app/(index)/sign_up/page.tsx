@@ -5,7 +5,7 @@ import Link from 'next/link';
 import axios from 'axios';
 import { useRouter } from 'next/navigation';
 
-import { LogIn, Eye, EyeOff } from "lucide-react";
+import { LogIn, Eye, EyeOff, UserRoundCheck ,ShieldAlert ,School} from "lucide-react";
 import {
     Select,
     SelectContent,
@@ -31,6 +31,7 @@ export default function SignUp() {
     const [isShowPassword, setIsShowPassword] = useState(false);
     const [isShowConfirmPassword, setIsShowConfirmPassword] = useState(false);
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const [isModalSignUpOpen, setIsModalSignUpOpen] = useState(false);
 
     const [username, setUsername] = useState('');
     const [email, setEmail] = useState('');
@@ -115,12 +116,13 @@ export default function SignUp() {
         if (username && email && password && role) {
             try {
                 const response = await axios.post('/api/sign_up', {
-                    username: username,
+                    user_name: username,
                     email: email,
                     password: password,
                     role: role
                 });
-                router.push("/");
+                setIsModalSignUpOpen(true);
+                setIsModalOpen(false);
             } catch (error) {
                 if (axios.isAxiosError(error)) {
                     const statusAPI = error.response?.status;
@@ -129,14 +131,14 @@ export default function SignUp() {
 
                     updateItemAtIndex(5, `Error ${statusAPI}: ${messageAPI}`);
                     setNotificationBox('text-md text-rose-600 bg-primary/20 p-5 rounded-md font-bold');
-                    updateItemAtIndex(0,'');
-                    updateItemAtIndex(1,'');
-                    updateItemAtIndex(2,'');
-                    updateItemAtIndex(3,'');
-                    updateItemAtIndex(4,'');
-
+                    updateItemAtIndex(0, '');
+                    updateItemAtIndex(1, '');
+                    updateItemAtIndex(2, '');
+                    updateItemAtIndex(3, '');
+                    updateItemAtIndex(4, '');
+                    setIsModalOpen(false);
                 } else {
-
+                    setIsModalOpen(false);
                     updateItemAtIndex(5, 'An unexpected error occurred');
                     setNotificationBox('text-md text-rose-600 bg-primary/20 p-5 rounded-md font-bold');
 
@@ -156,7 +158,9 @@ export default function SignUp() {
                     <div className='grid 2xl:w-[50rem] xl:w-[40rem] lg:w-[35rem] md:w-[30rem] sm:w-[20rem] w-[23rem] h-full items-start p-3'>
                         <div className='bg-primary/5 p-3 rounded-md'>
                             <div className='bg-primary/10 w-[100%] h-[15rem] grid justify-center items-center mb-5'>
-                                <div className='bg-primary/10 w-[20rem] h-[100%]'></div>
+                                <div className='bg-primary/10 text-primary w-[20rem] h-[100%] grid items-center justify-center'>
+                                <School className='size-60 '/>
+                                </div>
                             </div>
                             <p className={notificationBox}>{message[5]}</p>
 
@@ -228,7 +232,10 @@ export default function SignUp() {
                                     </DialogTrigger>
                                     <DialogContent>
                                         <DialogHeader>
-                                            <DialogTitle>Are you absolutely sure?</DialogTitle>
+                                            <div className='text-primary p-5 grid justify-items-center'>
+                                                <ShieldAlert className='size-28 animate-bounce text-yellow-700' />
+                                                <DialogTitle>Are you absolutely sure?</DialogTitle>
+                                            </div>
 
                                             <DialogDescription>
                                                 <Button variant='default' size='default' onClick={handleSubmit} className='ml-3 my-3'>OK</Button>
@@ -242,7 +249,25 @@ export default function SignUp() {
                             <p className='text-md mt-1'>You already have an account. <Link href={"/"} className='text-primary/80 underline'>signed in</Link> now.</p>
 
 
+                            <div>
+                                <Dialog open={isModalSignUpOpen} onOpenChange={setIsModalSignUpOpen}>
+                                    <DialogTrigger asChild>
+                                    </DialogTrigger>
+                                    <DialogContent>
+                                        <DialogHeader>
+                                            <div className='text-primary p-5 grid justify-items-center '>
+                                                <UserRoundCheck className='size-28 animate-bounce text-green-700' />
+                                                <DialogTitle>"Sign up completed successfully! Proceed to the sign in page."</DialogTitle>
+                                            </div>
 
+                                            <DialogDescription>
+                                                <Button variant='default' size='default' onClick={() => { router.push("./"); }} className='ml-3 my-3'>Sign in</Button>
+                                                <Button variant='outline' onClick={() => setIsModalSignUpOpen(false)} className='ml-3 my-3'>Cancel</Button>
+                                            </DialogDescription>
+                                        </DialogHeader>
+                                    </DialogContent>
+                                </Dialog>
+                            </div>
 
                         </div>
                     </div>

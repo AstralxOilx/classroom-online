@@ -5,7 +5,7 @@ import Link from 'next/link';
 import axios from 'axios';
 import { useRouter } from 'next/navigation';
 
-import { LogIn, Eye, EyeOff } from "lucide-react";
+import { LogIn, Eye, EyeOff, Key, School } from "lucide-react";
 
 import {
   Dialog,
@@ -83,7 +83,7 @@ export default function SignUp() {
           email: email,
           password: password,
         });
-        router.push("/");
+        router.push("./classroom/dashboard");
       } catch (error) {
         if (axios.isAxiosError(error)) {
           const statusAPI = error.response?.status;
@@ -93,12 +93,12 @@ export default function SignUp() {
           updateItemAtIndex(1, `Error ${statusAPI}: ${messageAPI}`);
           setNotificationBox('text-md text-rose-600 bg-primary/20 p-5 rounded-md font-bold');
           updateItemAtIndex(0, '');
-
+          setIsModalOpen(false);
         } else {
 
           updateItemAtIndex(1, 'An unexpected error occurred');
           setNotificationBox('text-md text-rose-600 bg-primary/20 p-5 rounded-md font-bold');
-
+          setIsModalOpen(false);
         }
       }
     } else {
@@ -116,55 +116,54 @@ export default function SignUp() {
           <div className='grid 2xl:w-[50rem] xl:w-[40rem] lg:w-[35rem] md:w-[30rem] sm:w-[20rem] w-[23rem] h-full items-start p-3'>
             <div className='bg-primary/5 p-3 rounded-md'>
               <div className='bg-primary/10 w-[100%] h-[15rem] grid justify-center items-center mb-5'>
-                <div className='bg-primary/10 w-[20rem] h-[100%]'></div>
+                <div className='bg-primary/10 text-primary w-[20rem] h-[100%] grid items-center justify-center'>
+                  <School className='size-60 '/>
+                </div>
               </div>
               <p className={notificationBox}>{message[1]}</p>
-              <form method="post">
-                <InputField onChange={handleChange} type='email' label='email' variant='floating' name='email' id='email' icon='mail' />
-                <p className={'text-sm text-rose-600 font-bold'}>{message[0]}</p>
-                <div className='relative'>
-                  <InputField
-                    onChange={handleChange}
-                    type={isShowPassword ? 'text' : 'password'}
-                    label='Password'
-                    variant='floating'
-                    name='password'
-                    id='password'
-                    icon='password'
-                  />
-                  <button
-                    type="button"
-                    onClick={() => { isShowPassword ? setIsShowPassword(false) : setIsShowPassword(true); }}
-                    className='absolute right-2 top-2'
-                  >
-                    {isShowPassword ? <Eye size={24} className='text-primary/50' /> : <EyeOff size={24} className='text-primary/50' />}
-                  </button>
-                </div>
-                <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
-                  <DialogTrigger asChild>
-                    <div className='flex justify-center items-center w-[9rem] py-[6px] text-white mt-5
+              <InputField onChange={handleChange} type='email' label='email' variant='floating' name='email' id='email' icon='mail' />
+              <p className={'text-sm text-rose-600 font-bold'}>{message[0]}</p>
+              <div className='relative'>
+                <InputField
+                  onChange={handleChange}
+                  type={isShowPassword ? 'text' : 'password'}
+                  label='Password'
+                  variant='floating'
+                  name='password'
+                  id='password'
+                  icon='password'
+                />
+                <button
+                  type="button"
+                  onClick={() => { isShowPassword ? setIsShowPassword(false) : setIsShowPassword(true); }}
+                  className='absolute right-2 top-2'
+                >
+                  {isShowPassword ? <Eye size={24} className='text-primary/50' /> : <EyeOff size={24} className='text-primary/50' />}
+                </button>
+              </div>
+              <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
+                <DialogTrigger asChild>
+                  <div className='flex justify-center items-center w-[9rem] py-[6px] text-white mt-5
                     rounded-sm bg-primary hover:bg-primary/90 hover:cursor-pointer
                     '>
-                      <LogIn />
-                      Sign in
-                    </div>
-                  </DialogTrigger>
-                  <DialogContent>
-                    <DialogHeader>
+                    <LogIn />
+                    Sign in
+                  </div>
+                </DialogTrigger>
+                <DialogContent>
+                  <DialogHeader>
+                    <div className='text-primary p-5 grid justify-items-center'>
+                      <Key className='size-28 animate-bounce text-primary' />
                       <DialogTitle>Are you absolutely sure?</DialogTitle>
-                      <DialogDescription>
-                        <Button variant='default' size='default' onClick={handleSubmit} className='ml-3 my-3'>OK</Button>
-                        <Button variant='outline' onClick={() => setIsModalOpen(false)} className='ml-3 my-3'>Cancel</Button>
-                      </DialogDescription>
-                    </DialogHeader>
-                  </DialogContent>
-                </Dialog>
-
-                <p className='text-md mt-1'>You haven't <Link href={"/sign_up"} className='text-primary/80 underline'>signed up</Link> yet, right?</p>
-
-              </form>
-
-
+                    </div>
+                    <DialogDescription>
+                      <Button variant='default' size='default' onClick={handleSubmit} className='ml-3 my-3'>OK</Button>
+                      <Button variant='outline' onClick={() => setIsModalOpen(false)} className='ml-3 my-3'>Cancel</Button>
+                    </DialogDescription>
+                  </DialogHeader>
+                </DialogContent>
+              </Dialog>
+              <p className='text-md mt-1'>You haven't <Link href={"/sign_up"} className='text-primary/80 underline'>signed up</Link> yet, right?</p>
             </div>
           </div>
         </div>

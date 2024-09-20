@@ -1,7 +1,6 @@
-import { PrismaClient } from '@prisma/client';
+import { PrismaClient } from '@prisma/client'; 
 import { NextResponse } from 'next/server';
 import bcrypt from 'bcryptjs';
-
 const prisma = new PrismaClient();
 
 export async function POST(request: Request) {
@@ -30,8 +29,14 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: 'Invalid password' }, { status: 401 });
     }
 
+    // อัปเดตเวลาที่เข้าสู่ระบบ (last_login)
+    const updatedUser = await prisma.user.update({
+      where: { email },
+      data: { last_login: new Date() }
+    });
+
     // ส่งข้อมูลผู้ใช้ที่เข้าสู่ระบบสำเร็จกลับไป
-    return NextResponse.json({ message: 'Sign in successful', user });
+    return NextResponse.json({ message: 'Sign in successful', user: updatedUser });
   } catch (error) {
     console.error('An error occurred while signing in:', error);
     return NextResponse.json({ error: 'An error occurred while signing in' }, { status: 500 });
