@@ -8,6 +8,7 @@ https://docs.docker.com/desktop/install/windows-install/
 ```bash
 docker-compose up -d
 ```
+Open postgresql [http://localhost:5050](http://localhost:5050) with your browser to see the result.
 
 prisma
 ```bash
