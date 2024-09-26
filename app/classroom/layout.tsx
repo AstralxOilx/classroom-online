@@ -3,6 +3,7 @@
 import { ReactNode } from 'react';
 import { ThemeColorToggle } from '@/components/theme-color-toggle';
 import { ThemeModeToggle } from '@/components/theme-mode-toggle';
+import { useSession } from 'next-auth/react';
 import { LayoutDashboard, 
     Users, 
     Bell, 
@@ -43,6 +44,8 @@ export default function LoginAndRegisterLayout({
     children: React.ReactNode;
 }) {
     const [isMobile, setIsMobile] = useState(false);
+    const {data: session} = useSession();
+    console.log(session);
 
     useEffect(() => {
         const handleResize = () => {

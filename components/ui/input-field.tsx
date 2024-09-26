@@ -1,10 +1,10 @@
 import React from 'react';
-import { User, LockKeyhole, Mail } from "lucide-react";
+import { User, LockKeyhole, Mail, Send } from "lucide-react";
 
 interface InputFieldProps {
   label: string;
   type: string;
-  variant?: 'filled' | 'underlined' | 'floating';
+  variant?: 'filled' | 'underlined' | 'floating' ;
   size?: 'sm' | 'md' | 'lg';
   icon?: string;
   id?: string;
@@ -81,7 +81,7 @@ const InputField: React.FC<InputFieldProps> = ({
         <div className="absolute ">
           {getIcon()}
         </div>
-        <input 
+        <input
           type={type}
           name={name}
           id={id}

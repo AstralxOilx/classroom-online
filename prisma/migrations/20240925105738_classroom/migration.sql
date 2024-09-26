@@ -1,0 +1,22 @@
+-- AlterTable
+ALTER TABLE "Assignment" ALTER COLUMN "created_at" SET DATA TYPE TIMESTAMPTZ,
+ALTER COLUMN "updated_at" SET DATA TYPE TIMESTAMPTZ;
+
+-- AlterTable
+ALTER TABLE "ChatMessage" ALTER COLUMN "sent_at" SET DATA TYPE TIMESTAMPTZ;
+
+-- AlterTable
+ALTER TABLE "ClassRoom" ALTER COLUMN "created_at" SET DATA TYPE TIMESTAMPTZ,
+ALTER COLUMN "updated_at" SET DATA TYPE TIMESTAMPTZ;
+
+-- AlterTable
+ALTER TABLE "ClassroomStudent" ALTER COLUMN "joined_at" SET DATA TYPE TIMESTAMPTZ;
+
+-- AlterTable
+ALTER TABLE "Notification" ALTER COLUMN "created_at" SET DATA TYPE TIMESTAMPTZ;
+
+-- AlterTable
+ALTER TABLE "Submission" ALTER COLUMN "submitted_at" SET DATA TYPE TIMESTAMPTZ;
+
+-- AlterTable
+ALTER TABLE "Users" ALTER COLUMN "updated_at" SET DATA TYPE TIMESTAMPTZ;

@@ -5,7 +5,7 @@ import Link from 'next/link';
 import axios from 'axios';
 import { useRouter } from 'next/navigation';
 
-import { LogIn, Eye, EyeOff, UserRoundCheck ,ShieldAlert ,School} from "lucide-react";
+import { LogIn, Eye, EyeOff, UserRoundCheck, ShieldAlert, School } from "lucide-react";
 import {
     Select,
     SelectContent,
@@ -82,29 +82,38 @@ export default function SignUp() {
                     setUsername(value);
                     updateItemAtIndex(0, '');
                 } else {
+                    setUsername('');
                     updateItemAtIndex(0, 'Name must be between 1 and 30 characters long.');
                 }
+                break;
             case 'email':
                 if (isValidEmail(value)) {
                     setEmail(value);
                     updateItemAtIndex(1, '');
                 } else {
+                    setEmail('');
                     updateItemAtIndex(1, 'Please provide a valid email format. example(example@Email.com).');
                 }
+                break;
             case 'password':
                 if (isValidPassword(value)) {
                     setPassword(value);
                     updateItemAtIndex(2, '');
                 } else {
+                    setPassword('');
                     updateItemAtIndex(2, 'Must contain 8 characters (A-Z),(a-z),(0-9) special characters(e.g. !, @, #, $) example(MySecure@123).');
                 }
+                break;
             case 'confirmPassword':
                 setConfirmPassword(value);
+                break;
         }
     }
     const handleSelectChange = (value: string) => {
         setRole(value);
     }
+
+   
 
     const handleSubmit = async (e: React.MouseEvent<HTMLButtonElement>) => {
         e.preventDefault();
@@ -113,7 +122,7 @@ export default function SignUp() {
         confirmPassword === password ? updateItemAtIndex(3, '') : updateItemAtIndex(3, 'Passwords do not match.');
         role ? updateItemAtIndex(4, '') : updateItemAtIndex(4, 'Please specify role.');
 
-        if (username && email && password && role) {
+        if (username && email && password && role && confirmPassword === password) {
             try {
                 const response = await axios.post('/api/sign_up', {
                     user_name: username,
@@ -123,6 +132,7 @@ export default function SignUp() {
                 });
                 setIsModalSignUpOpen(true);
                 setIsModalOpen(false);
+                
             } catch (error) {
                 if (axios.isAxiosError(error)) {
                     const statusAPI = error.response?.status;
@@ -159,93 +169,95 @@ export default function SignUp() {
                         <div className='bg-primary/5 p-3 rounded-md'>
                             <div className='bg-primary/10 w-[100%] h-[15rem] grid justify-center items-center mb-5'>
                                 <div className='bg-primary/10 text-primary w-[20rem] h-[100%] grid items-center justify-center'>
-                                <School className='size-60 '/>
+                                    <School className='size-60 ' />
                                 </div>
                             </div>
                             <p className={notificationBox}>{message[5]}</p>
 
-                            <InputField onChange={handleChange} type='text' label='username' variant='floating' name='username' id='username' />
-                            <p className={'text-sm text-rose-600 font-bold'}>{message[0]}</p>
-                            <InputField onChange={handleChange} type='email' label='email' variant='floating' name='email' id='email' icon='mail' />
-                            <p className={'text-sm text-rose-600 font-bold'}>{message[1]}</p>
-                            <div className='relative'>
-                                <InputField
-                                    onChange={handleChange}
-                                    type={isShowPassword ? 'text' : 'password'}
-                                    label='Password'
-                                    variant='floating'
-                                    name='password'
-                                    id='password'
-                                    icon='password'
-                                />
-                                <p className={'text-sm text-rose-600 font-bold'}>{message[2]}</p>
-                                <button
-                                    type="button"
-                                    onClick={() => { isShowPassword ? setIsShowPassword(false) : setIsShowPassword(true); }}
-                                    className='absolute right-2 top-2'
-                                >
-                                    {isShowPassword ? <Eye size={24} className='text-primary/50' /> : <EyeOff size={24} className='text-primary/50' />}
-                                </button>
-                            </div>
-                            <div className='relative'>
-                                <InputField
-                                    onChange={handleChange}
-                                    type={isShowConfirmPassword ? 'text' : 'password'}
-                                    label='confirmPassword'
-                                    variant='floating'
-                                    name='confirmPassword'
-                                    id='confirmPassword'
-                                    icon='password'
-                                />
+                            
+                                <InputField onChange={handleChange} type='text' label='username' variant='floating' name='username' id='username' />
+                                <p className={'text-sm text-rose-600 font-bold'}>{message[0]}</p>
+                                <InputField onChange={handleChange} type='email' label='email' variant='floating' name='email' id='email' icon='mail' />
+                                <p className={'text-sm text-rose-600 font-bold'}>{message[1]}</p>
+                                <div className='relative'>
+                                    <InputField
+                                        onChange={handleChange}
+                                        type={isShowPassword ? 'text' : 'password'}
+                                        label='Password'
+                                        variant='floating'
+                                        name='password'
+                                        id='password'
+                                        icon='password'
+                                    />
+                                    <p className={'text-sm text-rose-600 font-bold'}>{message[2]}</p>
+                                    <button
+                                        type="button"
+                                        onClick={() => { isShowPassword ? setIsShowPassword(false) : setIsShowPassword(true); }}
+                                        className='absolute right-2 top-2'
+                                    >
+                                        {isShowPassword ? <Eye size={24} className='text-primary/50' /> : <EyeOff size={24} className='text-primary/50' />}
+                                    </button>
+                                </div>
+                                <div className='relative'>
+                                    <InputField
+                                        onChange={handleChange}
+                                        type={isShowConfirmPassword ? 'text' : 'password'}
+                                        label='confirmPassword'
+                                        variant='floating'
+                                        name='confirmPassword'
+                                        id='confirmPassword'
+                                        icon='password'
+                                    />
 
-                                <p className={'text-sm text-rose-600 font-bold'}>{message[3]}</p>
-                                <button
-                                    type="button"
-                                    onClick={() => { isShowConfirmPassword ? setIsShowConfirmPassword(false) : setIsShowConfirmPassword(true); }}
-                                    className='absolute right-2 top-2'
-                                >
-                                    {isShowConfirmPassword ? <Eye size={24} className='text-primary/50' /> : <EyeOff size={24} className='text-primary/50' />}
-                                </button>
-                            </div>
+                                    <p className={'text-sm text-rose-600 font-bold'}>{message[3]}</p>
+                                    <button
+                                        type="button"
+                                        onClick={() => { isShowConfirmPassword ? setIsShowConfirmPassword(false) : setIsShowConfirmPassword(true); }}
+                                        className='absolute right-2 top-2'
+                                    >
+                                        {isShowConfirmPassword ? <Eye size={24} className='text-primary/50' /> : <EyeOff size={24} className='text-primary/50' />}
+                                    </button>
+                                </div>
 
-                            <div className='flex mt-5'>
-                                <Select onValueChange={handleSelectChange} name='role'>
-                                    <SelectTrigger className="w-[180px]">
-                                        <SelectValue placeholder="Role" />
-                                    </SelectTrigger>
-                                    <SelectContent>
-                                        <SelectItem value="student">Student</SelectItem>
-                                        <SelectItem value="teacher">Teacher</SelectItem>
-                                    </SelectContent>
-                                </Select>
-                            </div>
-                            <p className={'text-sm text-rose-600 font-bold'}>{message[4]}</p>
+                                <div className='flex mt-5'>
+                                    <Select onValueChange={handleSelectChange} name='role'>
+                                        <SelectTrigger className="w-[180px]">
+                                            <SelectValue placeholder="Role" />
+                                        </SelectTrigger>
+                                        <SelectContent>
+                                            <SelectItem value="student">Student</SelectItem>
+                                            <SelectItem value="teacher">Teacher</SelectItem>
+                                        </SelectContent>
+                                    </Select>
+                                </div>
+                                <p className={'text-sm text-rose-600 font-bold'}>{message[4]}</p>
 
 
-                            <div>
-                                <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
-                                    <DialogTrigger asChild>
-                                        <div className='flex justify-center items-center w-[9rem] py-[6px] text-white rounded-sm bg-primary hover:bg-primary/90 hover:cursor-pointer my-5'>
-                                            <LogIn />
-                                            Sign up
-                                        </div>
-                                    </DialogTrigger>
-                                    <DialogContent>
-                                        <DialogHeader>
-                                            <div className='text-primary p-5 grid justify-items-center'>
-                                                <ShieldAlert className='size-28 animate-bounce text-yellow-700' />
-                                                <DialogTitle>Are you absolutely sure?</DialogTitle>
+                                <div>
+                                    <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
+                                        <DialogTrigger asChild>
+                                            <div className='flex justify-center items-center w-[9rem] py-[6px] text-white rounded-sm bg-primary hover:bg-primary/90 hover:cursor-pointer my-5'>
+                                                <LogIn />
+                                                Sign up
                                             </div>
+                                        </DialogTrigger>
+                                        <DialogContent>
+                                            <DialogHeader>
+                                                <div className='text-primary p-5 grid justify-items-center'>
+                                                    <ShieldAlert className='size-28 animate-bounce text-yellow-700' />
+                                                    <DialogTitle>Are you absolutely sure?</DialogTitle>
+                                                </div>
 
-                                            <DialogDescription>
-                                                <Button variant='default' size='default' onClick={handleSubmit} className='ml-3 my-3'>OK</Button>
-                                                <Button variant='outline' onClick={() => setIsModalOpen(false)} className='ml-3 my-3'>Cancel</Button>
-                                            </DialogDescription>
-                                        </DialogHeader>
-                                    </DialogContent>
-                                </Dialog>
-                            </div>
+                                                <DialogDescription>
+                                                    <Button variant='default' size='default' onClick={handleSubmit} className='ml-3 my-3'>OK</Button>
+                                                    <Button variant='outline' onClick={() => setIsModalOpen(false)} className='ml-3 my-3'>Cancel</Button>
+                                                </DialogDescription>
+                                            </DialogHeader>
+                                        </DialogContent>
+                                    </Dialog>
+                                </div>
 
+                          
                             <p className='text-md mt-1'>You already have an account. <Link href={"/"} className='text-primary/80 underline'>signed in</Link> now.</p>
 
 

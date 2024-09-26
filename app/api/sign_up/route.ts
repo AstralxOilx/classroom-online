@@ -16,7 +16,7 @@ export async function POST(request: Request) {
     }
 
     // ตรวจสอบว่า email นี้มีอยู่แล้วหรือไม่
-    const existingUser = await prisma.user.findUnique({
+    const existingUser = await prisma.users.findUnique({
       where: { email },
     });
 
@@ -28,7 +28,7 @@ export async function POST(request: Request) {
     const hashedPassword = await bcrypt.hash(password, 10);
 
     // สร้างผู้ใช้ใหม่ในฐานข้อมูล
-    const newUser = await prisma.user.create({
+    const newUser = await prisma.users.create({
       data: {
         user_name,
         email,

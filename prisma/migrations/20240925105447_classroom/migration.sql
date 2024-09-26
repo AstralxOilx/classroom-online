@@ -1,0 +1,2 @@
+-- AlterTable
+ALTER TABLE "Users" ALTER COLUMN "created_at" SET DATA TYPE TIMESTAMPTZ;

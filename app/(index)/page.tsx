@@ -4,7 +4,7 @@ import InputField from '@/components/ui/input-field';
 import Link from 'next/link';
 import axios from 'axios';
 import { useRouter } from 'next/navigation';
-
+import { signIn } from 'next-auth/react';
 import { LogIn, Eye, EyeOff, Key, School } from "lucide-react";
 
 import {
@@ -64,11 +64,14 @@ export default function SignUp() {
         if (isValidEmail(value)) {
           setEmail(value);
           updateItemAtIndex(0, '');
+
         } else {
           updateItemAtIndex(0, 'Please provide a valid email format. example(example@Email.com).');
         }
+        break;
       case 'password':
         setPassword(value);
+        break;
     }
   }
 
@@ -79,11 +82,15 @@ export default function SignUp() {
 
     if (email && password) {
       try {
-        const response = await axios.post('/api/sign_in', {
-          email: email,
-          password: password,
+        const response = await signIn('credentials', {
+          email, password, redirect: false
         });
-        router.push("./classroom/dashboard");
+        
+        if(response?.error){
+          setNotificationBox("Invalid credentials");
+          return;
+        }
+        router.replace("./classroom/dashboard");
       } catch (error) {
         if (axios.isAxiosError(error)) {
           const statusAPI = error.response?.status;
@@ -117,7 +124,7 @@ export default function SignUp() {
             <div className='bg-primary/5 p-3 rounded-md'>
               <div className='bg-primary/10 w-[100%] h-[15rem] grid justify-center items-center mb-5'>
                 <div className='bg-primary/10 text-primary w-[20rem] h-[100%] grid items-center justify-center'>
-                  <School className='size-60 '/>
+                  <School className='size-60 ' />
                 </div>
               </div>
               <p className={notificationBox}>{message[1]}</p>

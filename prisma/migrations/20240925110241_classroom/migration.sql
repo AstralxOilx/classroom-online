@@ -1,0 +1,2 @@
+-- AlterTable
+ALTER TABLE "Users" ALTER COLUMN "last_login" SET DATA TYPE TIMESTAMPTZ;

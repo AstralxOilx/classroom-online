@@ -3,6 +3,7 @@ import { Josefin_Sans  } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider as NextThemesProvider, useTheme } from "next-themes";
 import ThemeDataProvider from "@/context/theme-data-provider";
+import { AuthProvider } from "@/context/auth-providers";
 
 const inter = Josefin_Sans ({ subsets: ["latin"] });
 
@@ -19,6 +20,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
+        <AuthProvider>
         <NextThemesProvider
           attribute="class"
           defaultTheme="dark"
@@ -27,6 +29,7 @@ export default function RootLayout({
         >
           <ThemeDataProvider>{children}</ThemeDataProvider>
         </NextThemesProvider>
+        </AuthProvider>
       </body>
     </html>
   );

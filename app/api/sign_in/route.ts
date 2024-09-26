@@ -14,7 +14,7 @@ export async function POST(request: Request) {
     }
     
     // ค้นหาผู้ใช้ในฐานข้อมูล
-    const user = await prisma.user.findUnique({
+    const user = await prisma.users.findUnique({
       where: { email }
     });
 
@@ -30,9 +30,9 @@ export async function POST(request: Request) {
     }
 
     // อัปเดตเวลาที่เข้าสู่ระบบ (last_login)
-    const updatedUser = await prisma.user.update({
+    const updatedUser = await prisma.users.update({
       where: { email },
-      data: { last_login: new Date() }
+      data: { last_login: new Date()  }
     });
 
     // ส่งข้อมูลผู้ใช้ที่เข้าสู่ระบบสำเร็จกลับไป
