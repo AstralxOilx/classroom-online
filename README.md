@@ -2,6 +2,21 @@ This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next
 
 ## Getting Started
 
+
+install docker
+https://docs.docker.com/desktop/install/windows-install/
+```bash
+docker-compose up -d
+```
+Open postgresql [http://localhost:5050](http://localhost:5050) with your browser to see the result.
+
+prisma
+```bash
+npx prisma migrate dev --name <ชื่อ-migration>
+npx prisma generate
+```
+
+
 First, run the development server:
 
 ```bash
@@ -13,6 +28,7 @@ pnpm dev
 # or
 bun dev
 ```
+
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
