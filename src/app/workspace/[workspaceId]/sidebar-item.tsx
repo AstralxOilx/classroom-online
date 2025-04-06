@@ -1,0 +1,59 @@
+import { LucideIcon } from "lucide-react";
+import { Id } from "../../../../convex/_generated/dataModel";
+import { IconType } from "react-icons/lib";
+import { Button } from "@/components/ui/button";
+import Link from "next/link";
+import { useWorkspaceId } from "@/hooks/use-workspace-id";
+
+import { cva, type VariantProps } from "class-variance-authority";
+import { cn } from "@/lib/utils";
+
+const SidebarItemVariants = cva(
+    "flex items-center gap-1.5 justify-start font-normal h-8 px-[18px] text-sm overflow-hidden rounded-sm",
+    {
+        variants: {
+            variant: {
+                default: "text-gray-600",
+                active: "shadow-xs text-primary bg-background hover:bg-background hover:text-primary rounded-l-none rounded-r-sm border-l-2 border-primary"
+            },
+        },
+        defaultVariants: {
+            variant: "default",
+        }
+    },
+);
+
+interface SidebarItemProps {
+    label: string;
+    id: string;
+    icon: LucideIcon | IconType;
+    variant?: VariantProps<typeof SidebarItemVariants>["variant"];
+}
+
+export const SidebarItem = ({
+    label,
+    id,
+    icon: Icon,
+    variant,
+}: SidebarItemProps) => {
+
+    const workspaceId = useWorkspaceId();
+
+    return (
+        <>
+
+            <Button
+                asChild
+                variant={"ghost"}
+                size={"sm"}
+                className={cn(SidebarItemVariants({ variant }))}
+            >
+                <Link href={`/workspace/${workspaceId}/channel/${id}`}>
+                    <Icon className="size-3.5 mr-1 shrink-0"/>
+                    <span className="text-sm truncate">{label}</span>
+                </Link>
+            </Button>
+
+        </>
+    );
+}
