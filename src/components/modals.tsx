@@ -1,7 +1,7 @@
 "use client";
-
-import { CreateWorkspaceModal } from "@/app/features/workspaces/components/create-workspace-modal";
-import { CreateChannelModal } from "@/app/features/channels/components/create-channels-modal";
+ 
+import { CreateChannelModal } from "@/features/channels/components/create-channels-modal";
+import { CreateWorkspaceModal } from "@/features/workspaces/components/create-workspace-modal";
 import { useEffect, useState } from "react";
 
 export const Modals = () => {

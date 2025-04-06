@@ -14,15 +14,15 @@ import {
     DialogTrigger,
 } from "@/components/ui/dialog";
 import { useState } from "react";
-import { Input } from "@/components/ui/input";
-import { useUpdateChannel } from "@/app/features/channels/api/use-update-channel";
+import { Input } from "@/components/ui/input"; 
 import { useChannelId } from "@/hooks/use-channel-Id";
-import { toast } from "sonner";
-import { useRemoveChannel } from "@/app/features/channels/api/use-remove-channel";
+import { toast } from "sonner"; 
 import { useConfirm } from "@/hooks/use-confirm";
 import { useRouter } from "next/navigation";
-import { useWorkspaceId } from "@/hooks/use-workspace-id";
-import { useCurrentMember } from "@/app/features/members/api/use-current-member";
+import { useWorkspaceId } from "@/hooks/use-workspace-id"; 
+import { useUpdateChannel } from "@/features/channels/api/use-update-channel";
+import { useRemoveChannel } from "@/features/channels/api/use-remove-channel";
+import { useCurrentMember } from "@/features/members/api/use-current-member";
 
 
 

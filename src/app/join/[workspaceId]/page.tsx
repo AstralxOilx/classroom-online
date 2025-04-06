@@ -1,17 +1,17 @@
 "use client"
-
-import { useGetWorkspaceInfo } from "@/app/features/workspaces/api/user-get-workspace-info";
+ 
 import { Button } from "@/components/ui/button";
 import { ChevronLeft, Loader } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import VerificationInput from "react-verification-input";
-import { useWorkspaceId } from "@/hooks/use-workspace-id";
-import { useJoin } from "@/app/features/workspaces/api/use-join";
+import { useWorkspaceId } from "@/hooks/use-workspace-id"; 
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 import { cn } from "@/lib/utils";
 import { useEffect, useMemo } from "react";
+import { useJoin } from "@/features/workspaces/api/use-join";
+import { useGetWorkspaceInfo } from "@/features/workspaces/api/user-get-workspace-info";
 
 
 

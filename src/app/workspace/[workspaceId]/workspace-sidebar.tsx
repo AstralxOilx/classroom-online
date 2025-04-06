@@ -1,17 +1,18 @@
-import { useCurrentMember } from "@/app/features/members/api/use-current-member";
-import { useGetWorkspace } from "@/app/features/workspaces/api/user-get-workspace";
+ 
 import { Button } from "@/components/ui/button";
 import { useWorkspaceId } from "@/hooks/use-workspace-id"
 import { AlertTriangle, HashIcon, LoaderCircle, MessageSquareText, RefreshCcw, SendHorizonal } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { WorkspaceHeader } from "./workspace-header";
-import { SidebarItem } from "./sidebar-item";
-import { UseGetChannels } from "@/app/features/channels/api/use-get-channels";
-import { WorkspaceSection } from "./workspace-section";
-import { useGetMembers } from "@/app/features/members/api/use-get-member";
-import { UserItem } from "./user-item";
-import { useCreateChannelModal } from "@/app/features/channels/store/use-create-channel-modal";
+import { SidebarItem } from "./sidebar-item"; 
+import { WorkspaceSection } from "./workspace-section"; 
+import { UserItem } from "./user-item"; 
 import { useChannelId } from "@/hooks/use-channel-Id";
+import { useCurrentMember } from "@/features/members/api/use-current-member";
+import { useGetWorkspace } from "@/features/workspaces/api/user-get-workspace";
+import { UseGetChannels } from "@/features/channels/api/use-get-channels";
+import { useGetMembers } from "@/features/members/api/use-get-member";
+import { useCreateChannelModal } from "@/features/channels/store/use-create-channel-modal";
 
 
 export const WorkspaceSidebar = () => {

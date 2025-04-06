@@ -1,10 +1,10 @@
 "use client";
-
-import { UseGetChannels } from "@/app/features/channels/api/use-get-channels";
-import { useCreateChannelModal } from "@/app/features/channels/store/use-create-channel-modal";
-import { useCurrentMember } from "@/app/features/members/api/use-current-member";
-import { useGetWorkspace } from "@/app/features/workspaces/api/user-get-workspace";
+ 
 import { Button } from "@/components/ui/button";
+import { UseGetChannels } from "@/features/channels/api/use-get-channels";
+import { useCreateChannelModal } from "@/features/channels/store/use-create-channel-modal";
+import { useCurrentMember } from "@/features/members/api/use-current-member";
+import { useGetWorkspace } from "@/features/workspaces/api/user-get-workspace";
 import { useWorkspaceId } from "@/hooks/use-workspace-id";
 import { AlertTriangle, LoaderCircle, RefreshCcw} from "lucide-react";
 import { useRouter } from "next/navigation";

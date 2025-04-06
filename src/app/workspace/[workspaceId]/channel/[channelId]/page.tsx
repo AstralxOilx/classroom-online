@@ -1,14 +1,14 @@
 "use client";
-
-import { UseGetChannel } from "@/app/features/channels/api/use-get-channel";
+ 
 import { Button } from "@/components/ui/button";
 import { useChannelId } from "@/hooks/use-channel-Id";
 import { AlertTriangle, LoaderCircle, RefreshCcw } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { Header } from "./header";
-import { ChatInput } from "./chat-input";
-import { useGetMessages } from "@/app/features/messages/api/use-get-messages";
+import { ChatInput } from "./chat-input"; 
 import { MessageList } from "@/components/message-list";
+import { useGetMessages } from "@/features/messages/api/use-get-messages";
+import { UseGetChannel } from "@/features/channels/api/use-get-channel";
 
 
 

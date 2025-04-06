@@ -1,10 +1,10 @@
 "use client"
 
-import { useEffect, useMemo } from "react";
-import { UserButton } from "./features/auth/components/user-button";
-import { useGetWorkspaces } from "./features/workspaces/api/user-get-workspaces";
-import { useCreateWorkspaceModal } from "./features/workspaces/store/use-create-workspace-modal";
+import { useEffect, useMemo } from "react"; 
 import { useRouter } from "next/navigation";
+import { useCreateWorkspaceModal } from "@/features/workspaces/store/use-create-workspace-modal";
+import { useGetWorkspaces } from "@/features/workspaces/api/user-get-workspaces";
+import { UserButton } from "@/features/auth/components/user-button";
 
 export default function Home() {
 

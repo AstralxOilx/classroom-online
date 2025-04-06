@@ -1,12 +1,13 @@
-import { GetMessagesReturnType } from "@/app/features/messages/api/use-get-messages";
+ 
 
 import { differenceInMinutes, format, isToday, isYesterday } from "date-fns";
 import { Message } from "./message";
 import { ChannelHero } from "./channel-hero";
 import { useState } from "react";
 import { Id } from "../../convex/_generated/dataModel";
-import { useWorkspaceId } from "@/hooks/use-workspace-id";
-import { useCurrentMember } from "@/app/features/members/api/use-current-member";
+import { useWorkspaceId } from "@/hooks/use-workspace-id"; 
+import { useCurrentMember } from "@/features/members/api/use-current-member";
+import { GetMessagesReturnType } from "@/features/messages/api/use-get-messages";
 
 interface MessageListProps {
     memberName?: string;

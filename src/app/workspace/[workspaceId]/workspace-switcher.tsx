@@ -1,7 +1,5 @@
-import { useGetWorkspace } from "@/app/features/workspaces/api/user-get-workspace";
-import { useGetWorkspaces } from "@/app/features/workspaces/api/user-get-workspaces";
-import { useWorkspaceId } from "@/hooks/use-workspace-id";
-import { useCreateWorkspaceModal } from "@/app/features/workspaces/store/use-create-workspace-modal";
+ 
+import { useWorkspaceId } from "@/hooks/use-workspace-id"; 
 import { Button } from "@/components/ui/button";
 import {
     DropdownMenu,
@@ -13,6 +11,9 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { LoaderCircle, Plus } from "lucide-react";
 import { useRouter } from "next/navigation";
+import { useCreateWorkspaceModal } from "@/features/workspaces/store/use-create-workspace-modal";
+import { useGetWorkspaces } from "@/features/workspaces/api/user-get-workspaces";
+import { useGetWorkspace } from "@/features/workspaces/api/user-get-workspace";
 
 export const WorkspaceSwitcher = () => {
 
