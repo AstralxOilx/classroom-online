@@ -28,7 +28,7 @@ const ChannelIdPage = () => {
 
     if (channelLoading || status === "LoadingFirstPage") {
         return (
-            <div className="h-full  flex-1 flex justify-center items-center flex-col gap-2 ">
+            <div className="h-full flex-1 flex justify-center items-center flex-col gap-2 ">
                 <LoaderCircle className="size-6 animate-spin text-muted-foreground" />
             </div>
         );
@@ -43,7 +43,7 @@ const ChannelIdPage = () => {
                 </p>
                 <Button
                     variant={"outline"}
-                    onClick={() => router.replace('/')}
+                    onClick={() => router.replace("/")}
                     className="cursor-pointer"
                 >
                     <RefreshCcw />

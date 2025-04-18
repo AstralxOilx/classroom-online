@@ -1,24 +1,26 @@
- 
+
 import { Button } from "@/components/ui/button";
 import { useWorkspaceId } from "@/hooks/use-workspace-id"
 import { AlertTriangle, HashIcon, LoaderCircle, MessageSquareText, RefreshCcw, SendHorizonal } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { WorkspaceHeader } from "./workspace-header";
-import { SidebarItem } from "./sidebar-item"; 
-import { WorkspaceSection } from "./workspace-section"; 
-import { UserItem } from "./user-item"; 
+import { SidebarItem } from "./sidebar-item";
+import { WorkspaceSection } from "./workspace-section";
+import { UserItem } from "./user-item";
 import { useChannelId } from "@/hooks/use-channel-Id";
 import { useCurrentMember } from "@/features/members/api/use-current-member";
 import { useGetWorkspace } from "@/features/workspaces/api/user-get-workspace";
 import { UseGetChannels } from "@/features/channels/api/use-get-channels";
-import { useGetMembers } from "@/features/members/api/use-get-member";
+import { useGetMembers } from "@/features/members/api/use-get-members";
 import { useCreateChannelModal } from "@/features/channels/store/use-create-channel-modal";
+import { useMemberId } from "@/hooks/use-member-id";
 
 
 export const WorkspaceSidebar = () => {
 
     const router = useRouter();
 
+    const memberId = useMemberId();
     const workspaceId = useWorkspaceId();
     const channelId = useChannelId();
 
@@ -46,7 +48,7 @@ export const WorkspaceSidebar = () => {
                 </p>
                 <Button
                     variant={"outline"}
-                    onClick={() => router.refresh()}
+                    onClick={() => router.replace("/")}
                     className="cursor-pointer"
                 >
                     <RefreshCcw />
@@ -87,27 +89,20 @@ export const WorkspaceSidebar = () => {
                 ))}
             </WorkspaceSection>
             <WorkspaceSection
-                label="Messages"
-                hint="New Messages"
-            // onNew={() => { }}
+                label="Members"
+                hint="New Channel" 
             >
-                {channels?.map((item) => (
-                    <SidebarItem
-                        key={item.name}
-                        icon={HashIcon}
-                        label={item.name}
+                {members?.map((item) => (
+                    <UserItem
+                        key={item._id}
                         id={item._id}
+                        label={item.user.name}
+                        image={item.user.image}
+                        variant={item._id === memberId ? "active" : "default"}
                     />
                 ))}
             </WorkspaceSection>
-            {members?.map((item) => (
-                <UserItem
-                    key={item._id}
-                    id={item._id}
-                    label={item.user.name}
-                    image={item.user.image}
-                />
-            ))}
+
         </div>
     )
 }

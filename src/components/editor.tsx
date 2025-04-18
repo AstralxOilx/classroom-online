@@ -82,12 +82,12 @@ const Editor = ({
                 toolbar: [
                     // [{ font: [] }, { size: [] }], // เปลี่ยนฟอนต์ และขนาดตัวอักษร
                     ["bold", "italic", "underline", "strike"], // ตัวหนา ตัวเอียง ขีดเส้นใต้ ขีดฆ่า
-                    [{ color: [] }, { background: [] }], // เปลี่ยนสีตัวอักษร & พื้นหลัง
-                    [{ script: "sub" }, { script: "super" }], // ตัวห้อย ตัวเสริม
-                    [{ header: [1, 2, 3, 4, 5, 6, false] }], // หัวข้อ H1 - H6
-                    [{ list: "ordered" }, { list: "bullet" }], // ลิสต์ตัวเลข & จุด
-                    [{ align: [] }], // จัดวางซ้าย กลาง ขวา
-                    ["blockquote", "code-block"], // Blockquote & Code Block
+                    // [{ color: [] }, { background: [] }], // เปลี่ยนสีตัวอักษร & พื้นหลัง
+                    // [{ script: "sub" }, { script: "super" }], // ตัวห้อย ตัวเสริม
+                    // [{ header: [1, 2, 3, 4, 5, 6, false] }], // หัวข้อ H1 - H6
+                    // [{ list: "ordered" }, { list: "bullet" }], // ลิสต์ตัวเลข & จุด
+                    // [{ align: [] }], // จัดวางซ้าย กลาง ขวา
+                    // ["blockquote", "code-block"], // Blockquote & Code Block
                     // ["link", "image", "video"], // แทรกลิงก์ รูปภาพ วิดีโอ
                     ["clean"], // ปุ่มล้างการฟอร์แมต
                 ],
@@ -166,10 +166,10 @@ const Editor = ({
         }
     }
 
-    const onEmojiSelect = (emoji: any) => {
+    const onEmojiSelect = (emojiValue: string) => {
         const quill = quillRef.current;
 
-        quill?.insertText(quill?.getSelection()?.index || 0, emoji.native);
+        quill?.insertText(quill?.getSelection()?.index || 0, emojiValue);
     }
 
     const isEmpty = !image && text.replace(/<(.|\n)*?>/g, "").trim().length === 0;

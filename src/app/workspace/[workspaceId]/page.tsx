@@ -68,7 +68,7 @@ const WorkspaceIdPage = () => {
                 </p>
                 <Button
                     variant={"outline"}
-                    onClick={() => router.replace('/')}
+                    onClick={() => router.refresh()}
                     className="cursor-pointer"
                 >
                     <RefreshCcw />

@@ -1,7 +1,7 @@
 "use client"
  
 import { Button } from "@/components/ui/button";
-import { ChevronLeft, Loader } from "lucide-react";
+import { ChevronLeft, LoaderCircle } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import VerificationInput from "react-verification-input";
@@ -28,7 +28,7 @@ const JoinPage = () => {
     useEffect(()=>{
         if(isMember){
             router.push(`/workspace/${workspaceId}`);
-            toast.success("คุณเข้าร่วมห้องเรียนอยู่แล้ว!");
+            // toast.success("คุณเข้าร่วมห้องเรียนอยู่แล้ว!");
         }
     },[isMember,router,workspaceId])
 
@@ -52,11 +52,10 @@ const JoinPage = () => {
     if (isLoading) {
         return (
             <div className=" h-full flex items-center justify-center">
-                <Loader className="size-6 animate-spin text-muted-foreground" />
+                <LoaderCircle className="size-6 animate-spin text-muted-foreground" />
             </div>
         );
     }
-
 
 
     return (

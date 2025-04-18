@@ -14,12 +14,12 @@ import {
     DialogTrigger,
 } from "@/components/ui/dialog";
 import { useState } from "react";
-import { Input } from "@/components/ui/input"; 
+import { Input } from "@/components/ui/input";
 import { useChannelId } from "@/hooks/use-channel-Id";
-import { toast } from "sonner"; 
+import { toast } from "sonner";
 import { useConfirm } from "@/hooks/use-confirm";
 import { useRouter } from "next/navigation";
-import { useWorkspaceId } from "@/hooks/use-workspace-id"; 
+import { useWorkspaceId } from "@/hooks/use-workspace-id";
 import { useUpdateChannel } from "@/features/channels/api/use-update-channel";
 import { useRemoveChannel } from "@/features/channels/api/use-remove-channel";
 import { useCurrentMember } from "@/features/members/api/use-current-member";
@@ -104,7 +104,7 @@ export const Header = ({ title }: HeaderProps) => {
     return (
         <>
             <ConfirmDialog />
-            <div className="bg-secondary/30 h-[45px] flex items-center px-4 overflow-hidden">
+            <div className="bg-secondary/50 h-[45px] flex items-center px-4 overflow-hidden">
                 <Dialog>
                     <DialogTrigger asChild>
                         <Button
@@ -113,14 +113,14 @@ export const Header = ({ title }: HeaderProps) => {
                             size={"sm"}
                         >
 
-                            <span className="truncate flex items-center"><Hash />{title}</span>
+                            <span className="truncate flex items-center"><Hash className="size-4" />{title}</span>
                             <FaChevronDown className="size-2.5 ml-2" />
                         </Button>
                     </DialogTrigger>
                     <DialogContent className="p-0 bg-gray-50 overflow-hidden">
                         <DialogHeader className="p-4 border-b bg-background">
                             <DialogTitle>
-                                <span className="truncate flex items-center"><Hash />{title}</span>
+                                <span className="truncate flex items-center"><Hash  className="size-4" />{title}</span>
                             </DialogTitle>
                         </DialogHeader>
                         <div className="px-4 pb-4 flex flex-col gap-y-2">
@@ -172,15 +172,19 @@ export const Header = ({ title }: HeaderProps) => {
                                     </DialogFooter>
                                 </DialogContent>
                             </Dialog>
-                            <Button
-                                variant={"destructive"}
-                                className="cursor-pointer mt-6"
-                                size={"lg"}
-                                onClick={handleRemove}
-                            >
-                                <TrashIcon className="size-4" />
-                                <p className="text-sm font-semibold">ลบ Channel</p>
-                            </Button>
+                            {
+                                member?.role === "teacher" ? (
+                                    <Button
+                                        variant={"destructive"}
+                                        className="cursor-pointer mt-6"
+                                        size={"lg"}
+                                        onClick={handleRemove}
+                                    >
+                                        <TrashIcon className="size-4" />
+                                        <p className="text-sm font-semibold">ลบ Channel</p>
+                                    </Button>
+                                ): null
+                            }
 
                         </div>
                     </DialogContent>

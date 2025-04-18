@@ -3,6 +3,8 @@ import { Button } from "./ui/button";
 import { Hint } from "./hint";
 import { EmojiPopover } from "./emoji-popover";
 
+
+
 interface ToolbarProps {
     isAuthor: boolean;
     isPending: boolean;
@@ -28,7 +30,7 @@ export const Toolbar = ({
             <div className="group-hover:opacity-100 opacity-0 transition-opacity border bg-background rounded-md shadow-sm">
                 <EmojiPopover
                     hint="แสดงความรู้สึก"
-                    onEmojiSelect={(emoji) => handleReaction(emoji.native)}
+                    onEmojiSelect={(emoji) => handleReaction(emoji)}
                 >
                     <Button
                         variant={"ghost"}
@@ -45,7 +47,8 @@ export const Toolbar = ({
                             variant={"ghost"}
                             size={"iconSm"}
                             disabled={isPending}
-                            className="cursor-pointer"
+                            className="cursor-pointer" 
+                            onClick={handleThread}
                         >
                             <MessageSquareTextIcon className="size-4" />
                         </Button>
@@ -58,6 +61,7 @@ export const Toolbar = ({
                             size={"iconSm"}
                             disabled={isPending}
                             className="cursor-pointer"
+                            onClick={handleEdit}
                         >
                             <Pencil className="size-4" />
                         </Button>
@@ -70,6 +74,7 @@ export const Toolbar = ({
                             size={"iconSm"}
                             disabled={isPending}
                             className="cursor-pointer"
+                            onClick={handleDelete}
                         >
                             <Trash className="size-4" />
                         </Button>

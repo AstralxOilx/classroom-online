@@ -1,13 +1,16 @@
- 
+
 
 import { differenceInMinutes, format, isToday, isYesterday } from "date-fns";
+import { th } from 'date-fns/locale';
 import { Message } from "./message";
 import { ChannelHero } from "./channel-hero";
 import { useState } from "react";
 import { Id } from "../../convex/_generated/dataModel";
-import { useWorkspaceId } from "@/hooks/use-workspace-id"; 
+import { useWorkspaceId } from "@/hooks/use-workspace-id";
 import { useCurrentMember } from "@/features/members/api/use-current-member";
 import { GetMessagesReturnType } from "@/features/messages/api/use-get-messages";
+import { LoaderCircle } from "lucide-react";
+import { ConversationHero } from "./conversation-hero";
 
 interface MessageListProps {
     memberName?: string;
@@ -28,7 +31,7 @@ const formatDateLabel = (dateStr: string) => {
     if (isToday(date)) return "วันนี้";
     if (isYesterday(date)) return "เมื่อวาน";
 
-    return format(date, "EEEE,MMMM d");
+    return format(date, "d MMMM yyyy", { locale: th });
 }
 
 export const MessageList = ({
@@ -108,16 +111,51 @@ export const MessageList = ({
                                     isCompact={isCompact}
                                     hideThreadButton={variant === "thread"}
                                     isAuthor={message.memberId === currentMember?._id}
+                                    threadName={message.threadName}
                                 />
                             )
                         })
                     }
                 </div>
             ))}
+            <div 
+                className="h-1 "
+                ref={(el) => {
+                    if(el) {
+                        const observer = new IntersectionObserver(
+                            ([entry]) => {
+                                if(entry.isIntersecting && canLoadMore) {
+                                    loadMore();
+                                }
+                            },
+                            {threshold:1.0}
+                        );
+
+                        observer.observe(el);
+                        return () => observer.disconnect();
+                    }
+                }}
+            />
+            {
+                isLoadingMore && (
+                    <div className=" text-center my-2 relative">
+                        <hr className="absolute top-1/2 left-0 right-0 border-t border-gray-300" />
+                        <span className="relative inline-block bg-white px-4 py-1 rounded-full text-xs border-gray-300 shadow-sm">
+                            <LoaderCircle className="size-4 animate-spin"/>
+                        </span>
+                    </div>
+                )
+            }
             {variant === "channel" && channelName && channelCreationTime && (
                 <ChannelHero
                     name={channelName}
                     creationTime={channelCreationTime}
+                />
+            )}
+            {variant === "conversation" && (
+                <ConversationHero
+                    name={memberName}
+                    image={memberImage}
                 />
             )}
         </div>

@@ -1,14 +1,20 @@
 import { useQuery } from "convex/react";
 import { api } from "../../../../convex/_generated/api";
 import { Id } from "../../../../convex/_generated/dataModel";
+ 
 
-interface UseGetMemberProps {
-    id: Id<"members">;
+interface UseGetMessageProps{
+    id: Id<"messages">;
 };
 
-export const useGetMember = ({ id }: UseGetMemberProps) => {
-    const data = useQuery(api.members.getById, { id });
+
+export const useGetMessage = ({id}:UseGetMessageProps) => {
+
+    const data = useQuery(api.messages.getById,{id});
     const isLoading = data === undefined;
 
-    return { data, isLoading };
-}
+    return {data , isLoading}
+};
+
+
+
