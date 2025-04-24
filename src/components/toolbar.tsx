@@ -34,7 +34,7 @@ export const Toolbar = ({
                 >
                     <Button
                         variant={"ghost"}
-                        size={"iconSm"}
+                        size={"icon"}
                         disabled={isPending}
                         className="cursor-pointer"
                     >
@@ -45,7 +45,7 @@ export const Toolbar = ({
                     <Hint label="ตอบกลับ">
                         <Button
                             variant={"ghost"}
-                            size={"iconSm"}
+                            size={"icon"}
                             disabled={isPending}
                             className="cursor-pointer" 
                             onClick={handleThread}
@@ -58,7 +58,7 @@ export const Toolbar = ({
                     <Hint label="แก้ไข">
                         <Button
                             variant={"ghost"}
-                            size={"iconSm"}
+                            size={"icon"}
                             disabled={isPending}
                             className="cursor-pointer"
                             onClick={handleEdit}
@@ -71,7 +71,7 @@ export const Toolbar = ({
                     <Hint label="ลบ">
                         <Button
                             variant={"ghost"}
-                            size={"iconSm"}
+                            size={"icon"}
                             disabled={isPending}
                             className="cursor-pointer"
                             onClick={handleDelete}

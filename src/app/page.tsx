@@ -1,10 +1,11 @@
 "use client"
 
-import { useEffect, useMemo } from "react"; 
+import { useEffect, useMemo } from "react";
 import { useRouter } from "next/navigation";
 import { useCreateWorkspaceModal } from "@/features/workspaces/store/use-create-workspace-modal";
 import { useGetWorkspaces } from "@/features/workspaces/api/user-get-workspaces";
 import { UserButton } from "@/features/auth/components/user-button";
+import { LoaderCircle } from "lucide-react";
 
 export default function Home() {
 
@@ -23,15 +24,15 @@ export default function Home() {
 
     if (workspacesId) {
       router.replace(`/workspace/${workspacesId}`)
-    } else if(!open) {
+    } else if (!open) {
       setOpen(true);
     }
 
-  }, [workspacesId, isLoading ,setOpen])
+  }, [workspacesId, isLoading, setOpen])
 
   return (
-    <div>
-      <UserButton />
+    <div className="h-full flex-1 flex justify-center items-center flex-col gap-2">
+      <LoaderCircle className="size-6 animate-spin text-muted-foreground" />
     </div>
   );
 }

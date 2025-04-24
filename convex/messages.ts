@@ -1,8 +1,7 @@
 import { v } from "convex/values";
 import { mutation, query, QueryCtx } from "./_generated/server";
 import { auth } from "./auth";
-import { Doc, Id } from "./_generated/dataModel";
-import { argv } from "process";
+import { Doc, Id } from "./_generated/dataModel"; 
 import { paginationOptsValidator } from "convex/server";
 
 
@@ -17,7 +16,7 @@ const populateThread = async (ctx: QueryCtx, messageId: Id<"messages">) => {
             count: 0,
             image: undefined,
             timestamp: 0,
-            name:"",
+            name: "",
         }
     }
 
@@ -70,6 +69,8 @@ const getMember = async (ctx: QueryCtx, workspaceId: Id<"workspaces">, userId: I
         .unique();
 }
 
+
+
 export const remove = mutation({
     args: {
         id: v.id("messages")
@@ -93,6 +94,11 @@ export const remove = mutation({
             throw new Error("Unauthorized");
         }
 
+
+        if (message.image) {
+            await ctx.storage.delete(message.image);
+        }
+        
         await ctx.db.delete(args.id);
 
         return args.id;

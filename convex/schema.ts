@@ -1,10 +1,19 @@
 import { defineSchema, defineTable } from "convex/server";
 import { authTables } from "@convex-dev/auth/server";
 import { v } from "convex/values";
-import { channel } from "diagnostics_channel";
 
 const schema = defineSchema({
    ...authTables,
+   users: defineTable({
+      name: v.optional(v.string()),
+      image: v.optional(v.string()),
+      email: v.optional(v.string()),
+      identificationCode: v.optional(v.string()),
+      emailVerificationTime: v.optional(v.number()),
+      phone: v.optional(v.string()),
+      phoneVerificationTime: v.optional(v.number()),
+      isAnonymous: v.optional(v.boolean()),
+   }).index("email", ["email"]),
    workspaces: defineTable({
       name: v.string(),
       userId: v.id("users"),
@@ -23,6 +32,69 @@ const schema = defineSchema({
       workspaceId: v.id("workspaces"),
    })
       .index("by_workspace_id", ["workspaceId"]),
+   assignments: defineTable({
+      name: v.string(),
+      description: v.string(),
+      score: v.number(),
+      publishDate: v.string(),
+      dueDate: v.string(),
+      workspaceId: v.id("workspaces"),
+   })
+      .index("by_workspace_id", ["workspaceId"])
+      .index("by_workspace_id_and_publish", ["workspaceId", "publishDate",]),
+   files: defineTable({
+      name: v.string(),
+      assignmentId: v.id("assignments"),
+      file: v.optional(v.id("_storage")),
+   })
+      .index("by_assignment_id", ["assignmentId"]),
+
+   submitAssignments: defineTable({
+      workspaceId: v.id("workspaces"),
+      assignmentId: v.id("assignments"),
+      userId: v.id("users"),
+      status: v.union(v.literal("submitted"), v.literal("late"), v.literal("canResubmit")),
+      canResubmit: v.optional(v.boolean()),
+   })
+      .index("by_workspace_id", ["workspaceId"])
+      .index("by_workspace_id_and_assignment_id", ["workspaceId", "assignmentId"])
+      .index("by_user_id_and_assignment_id", ["userId", "assignmentId"])
+      .index("by_user_id", ["userId"])
+      .index("by_assignment_user", ["assignmentId", "userId"]),
+   submitFiles: defineTable({
+      name: v.string(),
+      submitAssignmentId: v.id("submitAssignments"),
+      file: v.optional(v.id("_storage")),
+   })
+      .index("by_submitAssignments_id", ["submitAssignmentId"]),
+   feedback: defineTable({
+      submitAssignmentId: v.id("submitAssignments"),
+      description: v.string(),
+      score: v.number(),
+   })
+      .index("by_submitAssignmentId", ["submitAssignmentId"]),
+   attendanceSession: defineTable({
+      workspaceId: v.id("workspaces"),
+      title: v.string(),
+      startTime: v.string(),
+      endTime: v.string(),
+      endTeaching: v.string(),
+      createdBy: v.id("users"),
+   })
+      .index("by_workspaces", ["workspaceId"])
+      .index("by_workspace_id_and_startTime_and_endTime", ["workspaceId", "startTime","endTime",]),
+   attendance: defineTable({
+      sessionId: v.id("attendanceSession"),
+      userId: v.id("users"),
+      description: v.optional(v.string()),
+      status: v.union(
+         v.literal("present"),
+         v.literal("late"),
+         v.literal("leave")
+      ),
+      timestamp: v.string(), // เวลาที่เช็คชื่อ (optional)
+   })
+      .index("by_session_user", ["sessionId", "userId"]),
    conversations: defineTable({
       workspaceId: v.id("workspaces"),
       menubarOneId: v.id("members"),
@@ -43,7 +115,7 @@ const schema = defineSchema({
       .index("by_member_id", ["memberId"])
       .index("by_channel_id", ["channelId"])
       .index("by_conversation_id", ["conversationId"])
-      .index("by_parent_message_id",["parentMessageId"])
+      .index("by_parent_message_id", ["parentMessageId"])
       .index("by_channel_id_parent_message_id_conversation_id",
          [
             "conversationId",

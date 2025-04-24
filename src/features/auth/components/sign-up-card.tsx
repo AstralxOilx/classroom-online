@@ -8,6 +8,7 @@ import { SignInFlow } from "../types";
 import { useState } from "react";
 import { TriangleAlert } from "lucide-react";
 import { useAuthActions } from "@convex-dev/auth/react";
+import { set } from "date-fns";
 
 
 
@@ -21,9 +22,12 @@ export const SignUpCard = ({ setState }: SignUpCardProps) => {
 
     const { signIn } = useAuthActions();
 
-    const [name, setName] = useState("");
+    const [fname, setFname] = useState("");
+    const [lname, setLname] = useState("");
+    // const [name, setName] = useState("");
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [identificationCode, setIdentificationCode] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
     const [pending, setPending] = useState(false);
     const [error, setError] = useState('');
@@ -33,8 +37,17 @@ export const SignUpCard = ({ setState }: SignUpCardProps) => {
         setPending(true);
         setError("");
 
-        console.log(email)
-        console.log(password)
+        // console.log(email)
+        // console.log(password)
+
+        // if (fname.trim() && lname.trim()) {
+        //     setError("กรุณาระบุชื่อ และนามสกุลให้ครบถ้วน");
+        //     setPending(false);
+        //     return;
+        // }
+
+
+        const name = [fname, lname].map(s => s?.trim()).filter(Boolean).join(" ");
 
         if (password !== confirmPassword) {
             setError("รหัสผ่านไม่ตรงกัน");
@@ -43,10 +56,23 @@ export const SignUpCard = ({ setState }: SignUpCardProps) => {
         }
 
         try {
-            signIn("password", { name, email, password, flow: "signUp" });
-        } catch (error) {
-            setError("มีบางอย่างผิดพลาดเกิดขึ้น");
-            console.log(error)
+            await signIn("password", {
+                name,
+                email,
+                identificationCode,
+                password,
+                flow: "signUp",
+            });
+
+        } catch (error: any) {
+            const message = error?.message || "";
+            if (message.includes("already exists")) {
+                setError("อีเมลนี้ถูกใช้งานแล้ว");
+            } else if (message.includes("Password")) {
+                setError("รหัสผ่านไม่ผ่านเงื่อนไข");
+            } else {
+                setError("เกิดข้อผิดพลาด! โปรดลองใหม่");
+            }
         } finally {
             setPending(false);
         }
@@ -78,9 +104,24 @@ export const SignUpCard = ({ setState }: SignUpCardProps) => {
                 <form onSubmit={onPasswordSignUp} className="space-y-2.5">
                     <Input
                         disabled={pending}
-                        value={name}
-                        onChange={(e) => setName(e.target.value)}
+                        value={fname}
+                        onChange={(e) => setFname(e.target.value)}
                         placeholder="ชื่อ"
+                        type="text"
+                        required
+                    />  <Input
+                        disabled={pending}
+                        value={lname}
+                        onChange={(e) => setLname(e.target.value)}
+                        placeholder="นามสกุล"
+                        type="text"
+                        required
+                    />
+                    <Input
+                        disabled={pending}
+                        value={identificationCode}
+                        onChange={(e) => setIdentificationCode(e.target.value)}
+                        placeholder="รหัสประจำตัว นักเรียน/ครู"
                         type="text"
                         required
                     />
@@ -88,7 +129,7 @@ export const SignUpCard = ({ setState }: SignUpCardProps) => {
                         disabled={pending}
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
-                        placeholder="อีเมล"
+                        placeholder="อีเมล์"
                         type="email"
                         required
                     />

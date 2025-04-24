@@ -21,10 +21,7 @@ import {
     DropdownMenuRadioItem,
 } from "@/components/ui/dropdown-menu";
 
-
-
-
-
+ 
 
 
 interface ProfileProps {
@@ -125,7 +122,7 @@ export const Profile = ({ memberId, onClose }: ProfileProps) => {
             <div className="h-full w-full flex-col">
                 <div className="flex justify-between items-center bg-secondary/50 h-[45px] overflow-hidden px-4">
                     <p className="text-lg font-bold">โปรไฟล์</p>
-                    <Button className="cursor-pointer" onClick={onClose} size={"iconSm"} variant={"ghost"}>
+                    <Button className="cursor-pointer" onClick={onClose} size={"sm"} variant={"ghost"}>
                         <XIcon className="size-5 stroke-[1.5]" />
                     </Button>
                 </div>
@@ -141,7 +138,7 @@ export const Profile = ({ memberId, onClose }: ProfileProps) => {
             <div className="h-full w-full flex-col">
                 <div className="flex justify-between items-center bg-secondary/50 h-[45px] overflow-hidden px-4">
                     <p className="text-lg font-bold">โปรไฟล์</p>
-                    <Button className="cursor-pointer" onClick={onClose} size={"iconSm"} variant={"ghost"}>
+                    <Button className="cursor-pointer" onClick={onClose} size={"sm"} variant={"ghost"}>
                         <XIcon className="size-5 stroke-[1.5]" />
                     </Button>
                 </div>
@@ -162,7 +159,7 @@ export const Profile = ({ memberId, onClose }: ProfileProps) => {
             <div className="h-full w-full flex-col">
                 <div className="flex justify-between items-center bg-secondary/50 h-[45px] overflow-hidden px-4">
                     <p className="text-lg font-bold">โปรไฟล์</p>
-                    <Button className="cursor-pointer" onClick={onClose} size={"iconSm"} variant={"ghost"}>
+                    <Button className="cursor-pointer" onClick={onClose} size={"sm"} variant={"ghost"}>
                         <XIcon className="size-5 stroke-[1.5]" />
                     </Button>
                 </div>
@@ -174,6 +171,8 @@ export const Profile = ({ memberId, onClose }: ProfileProps) => {
                 </div>
                 <div className="flex flex-col p-4">
                     <p className="text-xl font-bold">{member.user.name}</p>
+                    <p className="text-xs font-semibold text-muted-foreground">บทบาท:{roleMapping[member.role]}</p>
+                    <p className="text-xs font-semibold text-muted-foreground">รหัสประจำตัว:{member.user.identificationCode}</p>
                     {currentMember?.role === "teacher" &&
                         currentMember?._id !== memberId ? (
                         <div className="flex items-center gap-2 mt-4">

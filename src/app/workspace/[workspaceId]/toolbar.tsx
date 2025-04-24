@@ -1,8 +1,9 @@
-
+"use client";
+ 
 import { Button } from "@/components/ui/button"
 import { useGetWorkspace } from "@/features/workspaces/api/user-get-workspace";
 import { useWorkspaceId } from "@/hooks/use-workspace-id"
-import { Info, Search } from "lucide-react"
+import { AlignJustify, AlignLeft, Info, Search, TextSearch, X } from "lucide-react"
 import {
     Command,
     CommandDialog,
@@ -19,6 +20,9 @@ import { UseGetChannels } from "@/features/channels/api/use-get-channels";
 import { useGetMembers } from "@/features/members/api/use-get-members";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { useToggleMenuBar } from "../../../store/use-toggle-menu-bar";
+import { useIsMobile } from "@/hooks/useIsMobile";
+
 
 
 export const Toolbar = () => {
@@ -43,9 +47,30 @@ export const Toolbar = () => {
     const { data: channels } = UseGetChannels({ workspaceId });
     const { data: members } = useGetMembers({ workspaceId });
 
+    const [isOpen, toggleMenu] = useToggleMenuBar();
+
+    const isMobile = useIsMobile();
+
     return (
         <nav className="bg-background flex items-center justify-between h-10 p-1.5">
-            <div className="flex-1" />
+            <div className="ml-auto flex-1 flex items-center justify-start">
+                {
+                    isMobile ? (
+                        <Button
+                            variant={"ghost"}
+                            onClick={toggleMenu}
+                        >
+                            {
+                                isOpen ? (
+                                    <AlignJustify />
+                                ):(
+                                    <X />
+                                )
+                        }
+                        </Button>
+                    ) : null
+                }
+            </div>
             <div className="min-w-[280px] max-[642px] grow-[2] shrink">
                 <Button
                     onClick={() => setOpen(true)}
@@ -53,7 +78,8 @@ export const Toolbar = () => {
                     variant={"ghost"}
                     className="shadow cursor-pointer w-full text-gray-500 justify-start h-8 px-2"
                 >
-                    <Search className="size-4 mr-2" />
+                    {/* <Search className="size-4 mr-2" /> */}
+                    <TextSearch className="size-4 mr-2" />
                     <span className="truncate">
                         ค้นหา {data?.name}
                     </span>
@@ -71,12 +97,20 @@ export const Toolbar = () => {
                             ))}
                         </CommandGroup>
                         <CommandSeparator />
-                        <CommandGroup heading="Member">
+                        <CommandGroup heading="Members">
                             {members?.map((member) => (
                                 <CommandItem key={member._id} onSelect={() => onMemberClick(member._id)}>
                                     {member.user.name}
                                 </CommandItem>
                             ))}
+                        </CommandGroup>  
+                        <CommandSeparator />
+                        <CommandGroup heading="Assignments">
+                            {/* {members?.map((member) => (
+                                <CommandItem key={member._id} onSelect={() => onMemberClick(member._id)}>
+                                    {member.user.name}
+                                </CommandItem>
+                            ))} */}
                         </CommandGroup>
                     </CommandList>
                 </CommandDialog>
@@ -86,7 +120,7 @@ export const Toolbar = () => {
             <div className="ml-auto flex-1 flex items-center justify-end">
                 <Button
                     className="cursor-pointer rounded-md"
-                    variant={"transparent"}
+                    variant={"ghost"}
                 >
                     <Info className="size-5" />
                 </Button>

@@ -74,7 +74,7 @@ export const Thread = ({
             <div className="h-full w-full flex-col">
                 <div className="flex justify-between items-center bg-secondary/50 h-[45px] overflow-hidden px-4">
                     <p className="text-lg font-bold">กระทู้</p>
-                    <Button className="cursor-pointer" onClick={onClose} size={"iconSm"} variant={"ghost"}>
+                    <Button className="cursor-pointer" onClick={onClose} size={"sm"} variant={"ghost"}>
                         <XIcon className="size-5 stroke-[1.5]" />
                     </Button>
                 </div>
@@ -170,7 +170,7 @@ export const Thread = ({
             <div className="h-full w-full flex-col">
                 <div className="flex justify-between items-center bg-secondary/50 h-[45px] overflow-hidden px-4">
                     <p className="text-lg font-bold">กระทู้</p>
-                    <Button className="cursor-pointer" onClick={onClose} size={"iconSm"} variant={"ghost"}>
+                    <Button className="cursor-pointer" onClick={onClose} size={"sm"} variant={"ghost"}>
                         <XIcon className="size-5 stroke-[1.5]" />
                     </Button>
                 </div>
@@ -186,7 +186,7 @@ export const Thread = ({
         <div className="flex flex-col h-full">
             <div className="flex justify-between items-center bg-secondary/50 h-[45px] overflow-hidden px-4">
                 <p className="text-lg font-bold">กระทู้</p>
-                <Button className="cursor-pointer" onClick={onClose} size={"iconSm"} variant={"ghost"}>
+                <Button className="cursor-pointer" onClick={onClose} size={"sm"} variant={"ghost"}>
                     <XIcon className="size-5 stroke-[1.5]" />
                 </Button>
             </div>

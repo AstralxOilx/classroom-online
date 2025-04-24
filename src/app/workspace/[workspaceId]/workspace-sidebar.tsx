@@ -1,8 +1,8 @@
 
 import { Button } from "@/components/ui/button";
 import { useWorkspaceId } from "@/hooks/use-workspace-id"
-import { AlertTriangle, HashIcon, LoaderCircle, MessageSquareText, RefreshCcw, SendHorizonal } from "lucide-react";
-import { useRouter } from "next/navigation";
+import { AlertTriangle, BackpackIcon, HashIcon, LoaderCircle, MessageSquareText, RefreshCcw, SendHorizonal } from "lucide-react";
+import { usePathname, useRouter } from "next/navigation";
 import { WorkspaceHeader } from "./workspace-header";
 import { SidebarItem } from "./sidebar-item";
 import { WorkspaceSection } from "./workspace-section";
@@ -14,6 +14,7 @@ import { UseGetChannels } from "@/features/channels/api/use-get-channels";
 import { useGetMembers } from "@/features/members/api/use-get-members";
 import { useCreateChannelModal } from "@/features/channels/store/use-create-channel-modal";
 import { useMemberId } from "@/hooks/use-member-id";
+import { CreateAssignMent } from "@/app/workspace/[workspaceId]/assignment/create-assignment";
 
 
 export const WorkspaceSidebar = () => {
@@ -23,6 +24,8 @@ export const WorkspaceSidebar = () => {
     const memberId = useMemberId();
     const workspaceId = useWorkspaceId();
     const channelId = useChannelId();
+
+    const pathname = usePathname();
 
     const { data: member, isLoading: memberLoading } = useCurrentMember({ workspaceId });
     const { data: workspace, isLoading: workspaceLoading } = useGetWorkspace({ id: workspaceId });
@@ -61,18 +64,6 @@ export const WorkspaceSidebar = () => {
     return (
         <div className="flex flex-col bg-secondary/30 h-full">
             <WorkspaceHeader workspace={workspace} isTeacher={member.role === "teacher"} />
-            <div className="flex flex-col px-2 mt-3 ">
-                <SidebarItem
-                    label="Threads"
-                    icon={MessageSquareText}
-                    id="threads"
-                />
-                <SidebarItem
-                    label="Drafts & Sent"
-                    icon={SendHorizonal}
-                    id="drafts"
-                />
-            </div>
             <WorkspaceSection
                 label="Channels"
                 hint="New Channel"
@@ -88,9 +79,115 @@ export const WorkspaceSidebar = () => {
                     />
                 ))}
             </WorkspaceSection>
+            {
+                member.role === "teacher" ? (
+                    <WorkspaceSection
+                        label="งานที่หมอบหมาย"
+                        hint="งานที่หมอบหมาย"
+                    >
+                        <CreateAssignMent title="เพิ่มการบ้าน" />
+                        <SidebarItem
+                            icon={HashIcon}
+                            label={"ส่วนตัว"}
+                            id={"private"}
+                            type="assignment"
+                            variant={pathname.includes("/private") ? "active" : "default"}
+                        />
+                        <SidebarItem
+                            icon={HashIcon}
+                            label={"สาธาระ"}
+                            id={"public"}
+                            type="assignment"
+                            variant={pathname.includes("/public") ? "active" : "default"}
+                        />
+                    </WorkspaceSection>
+                ) : (
+                    <WorkspaceSection
+                        label="งานที่หมอบหมาย"
+                        hint="งานที่หมอบหมาย"
+                    >
+                        <SidebarItem
+                            icon={HashIcon}
+                            label={"สาธาระ"}
+                            id={"public"}
+                            type="assignment"
+                            variant={pathname.includes("/public") ? "active" : "default"}
+                        />
+                        <SidebarItem
+                            icon={HashIcon}
+                            label={"ส่งแล้ว"}
+                            id={"complete"}
+                            type="assignment"
+                            variant={pathname.includes("/complete") ? "active" : "default"}
+                        />
+                    </WorkspaceSection>
+                )
+            }
             <WorkspaceSection
-                label="Members"
-                hint="New Channel" 
+                label="เช็คชื่อ"
+                hint="เช็คชื่อ"
+            // onNew={member.role === "teacher" ? () => setOpen(true) : undefined}
+            >
+                {
+                    member.role === "teacher" ? (
+                        <SidebarItem
+                            key={"create-check-in"}
+                            icon={HashIcon}
+                            label={"สร้างเช็คชื่อ"}
+                            id={"create-check-in"}
+                            type="attendance"
+                            variant={pathname.includes("/create-check-in") ? "active" : "default"}
+                        />
+                    ) : (
+                        <SidebarItem
+                            key={"check-in"}
+                            icon={HashIcon}
+                            label={"เช็คชื่อ"}
+                            id={"check-in"}
+                            type="attendance"
+                            variant={pathname.includes("/check-in") ? "active" : "default"}
+                        />
+                    )
+                }
+                <SidebarItem
+                    key={"recordn"}
+                    icon={HashIcon}
+                    label={"ประวัติการเช็คชื่อ"}
+                    id={"record"}
+                    type="attendance"
+                    variant={pathname.includes("/record") ? "active" : "default"}
+                />
+            </WorkspaceSection>
+            <WorkspaceSection
+                label="เริ่มเรียนออนไลน์"
+                hint="เริ่มเรียนออนไลน์"
+            // onNew={member.role === "teacher" ? () => setOpen(true) : undefined}
+            >
+                {
+                    member.role === "teacher" ? (
+                        <SidebarItem
+                            key={"create-check-in"}
+                            icon={HashIcon}
+                            label={"เริ่มต้นเรียนออนไลน์"}
+                            id={"create-stream"}
+                            type="stream"
+                            variant={pathname.includes("/create-stream") ? "active" : "default"}
+                        />
+                    ) : (
+                        <SidebarItem
+                            key={"check-in"}
+                            icon={HashIcon}
+                            label={"เช็คชื่อ"}
+                            id={"check-in"}
+                            type="attendance"
+                            variant={pathname.includes("/check-in") ? "active" : "default"}
+                        />
+                    )
+                } 
+            </WorkspaceSection>
+            <WorkspaceSection
+                label="สมาชิก"
+                hint="สมาชิก"
             >
                 {members?.map((item) => (
                     <UserItem
@@ -102,7 +199,6 @@ export const WorkspaceSidebar = () => {
                     />
                 ))}
             </WorkspaceSection>
-
         </div>
     )
 }

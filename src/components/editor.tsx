@@ -219,7 +219,7 @@ const Editor = ({
                     <Hint label={!isToolbarVisible ? "ซ่อนแทบเครื่องมือ" : "แสดงแทบเครื่องมือ"}>
                         <Button
                             disabled={disabled}
-                            size={"iconSm"}
+                            size={"icon"}
                             variant={"ghost"}
                             onClick={toggleToolbar}
                             className="cursor-pointer"
@@ -230,7 +230,7 @@ const Editor = ({
                     <EmojiPopover onEmojiSelect={onEmojiSelect}>
                         <Button
                             disabled={disabled}
-                            size={"iconSm"}
+                            size={"icon"}
                             variant={"ghost"}
                             className="cursor-pointer"
                         >
@@ -241,7 +241,7 @@ const Editor = ({
                         <Hint label="รูปภาพ">
                             <Button
                                 disabled={disabled}
-                                size={"iconSm"}
+                                size={"icon"}
                                 variant={"ghost"}
                                 onClick={() => imageElementRef.current?.click()}
                                 className="cursor-pointer"
