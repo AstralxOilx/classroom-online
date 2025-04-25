@@ -18,6 +18,7 @@ import type * as attendance from "../attendance.js";
 import type * as auth from "../auth.js";
 import type * as channels from "../channels.js";
 import type * as conversations from "../conversations.js";
+import type * as dashboard from "../dashboard.js";
 import type * as feedback from "../feedback.js";
 import type * as http from "../http.js";
 import type * as members from "../members.js";
@@ -42,6 +43,7 @@ declare const fullApi: ApiFromModules<{
   auth: typeof auth;
   channels: typeof channels;
   conversations: typeof conversations;
+  dashboard: typeof dashboard;
   feedback: typeof feedback;
   http: typeof http;
   members: typeof members;

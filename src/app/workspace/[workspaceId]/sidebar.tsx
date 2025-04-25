@@ -44,7 +44,7 @@ export const Sidebar = () => {
                         <SidebarButton icon={School} label="ห้องเรียน" isActive={pathname.includes("/workspace")} />
                         {/* <SidebarButton icon={MessagesSquare} label="แชท" /> */}
                         <SidebarButton icon={Bell} label="แจ้งเตือน" />
-                        <SidebarButton icon={MoreHorizontal} label="อื่นๆ" />
+                        {/* <SidebarButton icon={MoreHorizontal} label="อื่นๆ" /> */}
                         <div className="flex flex-col items-center justify-center gap-y-1 mt-auto">
                             <UserButton />
                         </div>

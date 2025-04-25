@@ -82,7 +82,7 @@ const schema = defineSchema({
       createdBy: v.id("users"),
    })
       .index("by_workspaces", ["workspaceId"])
-      .index("by_workspace_id_and_startTime_and_endTime", ["workspaceId", "startTime","endTime",]),
+      .index("by_workspace_id_and_startTime_and_endTime", ["workspaceId", "startTime", "endTime",]),
    attendance: defineTable({
       sessionId: v.id("attendanceSession"),
       userId: v.id("users"),
@@ -90,7 +90,7 @@ const schema = defineSchema({
       status: v.union(
          v.literal("present"),
          v.literal("late"),
-         v.literal("leave")
+         v.literal("leave"),
       ),
       timestamp: v.string(), // เวลาที่เช็คชื่อ (optional)
    })
@@ -131,6 +131,20 @@ const schema = defineSchema({
       .index("by_workspace_id", ["workspaceId"])
       .index("by_message_id", ["messageId"])
       .index("by_member_id", ["memberId"]),
+
+   notifications: defineTable({
+      userId: v.id("users"),
+      workspaceId: v.id("workspaces"),
+      type: v.string(), // เช่น "new-assignment", "feedback", "announcement", etc.
+      title: v.string(),
+      description: v.optional(v.string()),
+      data: v.optional(v.any()), // เก็บข้อมูลเพิ่มเติม เช่น assignmentId
+      read: v.boolean(),
+      createdAt: v.string(),
+   })
+      .index("by_user_id", ["userId"])
+      .index("by_workspace_id", ["workspaceId"]),
+
 });
 
 export default schema;

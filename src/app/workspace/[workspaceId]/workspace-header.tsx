@@ -76,10 +76,10 @@ export const WorkspaceHeader = ({ workspace, isTeacher }: WorkspaceHeaderProps) 
                 </DropdownMenu>
 
                 <div className=" flex items-center gap-0.5">
-                    <Hint label="กรองการสนทนา" side="bottom">
+                    {/* <Hint label="กรองการสนทนา" side="bottom">
                         <Button
-                            variant={"transparent"}
-                            size={"iconSm"}
+                            variant={"outline"}
+                            size={"sm"}
                             className="cursor-pointer text-gray-800 font-semibold text-md w-auto p-1.5 overflow-hidden"
                         >
                             <ListFilter className="size-4" />
@@ -87,13 +87,13 @@ export const WorkspaceHeader = ({ workspace, isTeacher }: WorkspaceHeaderProps) 
                     </Hint>
                     <Hint label="ข้อความใหม่" side="bottom">
                         <Button
-                            variant={"transparent"}
-                            size={"iconSm"}
+                            variant={"outline"}
+                            size={"sm"}
                             className="cursor-pointer text-gray-800 font-semibold text-md w-auto p-1.5 overflow-hidden"
                         >
                             <SquarePen className="size-4" />
                         </Button>
-                    </Hint>
+                    </Hint> */}
                 </div>
             </div>
         </>

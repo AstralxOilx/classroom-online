@@ -1,7 +1,7 @@
 
 import { Button } from "@/components/ui/button";
 import { useWorkspaceId } from "@/hooks/use-workspace-id"
-import { AlertTriangle, BackpackIcon, HashIcon, LoaderCircle, MessageSquareText, RefreshCcw, SendHorizonal } from "lucide-react";
+import { AlertTriangle, BackpackIcon, ClipboardCheck, Earth, EarthLock, HashIcon, LayoutGrid, LoaderCircle, MessageSquareText, RefreshCcw, SendHorizonal, SquareCheckBig, Video } from "lucide-react";
 import { usePathname, useRouter } from "next/navigation";
 import { WorkspaceHeader } from "./workspace-header";
 import { SidebarItem } from "./sidebar-item";
@@ -65,6 +65,22 @@ export const WorkspaceSidebar = () => {
         <div className="flex flex-col bg-secondary/30 h-full">
             <WorkspaceHeader workspace={workspace} isTeacher={member.role === "teacher"} />
             <WorkspaceSection
+                label="แดชบอร์ด"
+                hint="แดชบอร์ด"
+            // onNew={member.role === "teacher" ? () => setOpen(true) : undefined}
+            >
+
+                <SidebarItem
+                    key={"dashboard"}
+                    icon={LayoutGrid}
+                    label={"แดชบอร์ด"}
+                    id={"dashboard"}
+                    type="dashboard"
+                    variant={pathname.includes("/dashboard") ? "active" : "default"}
+                />
+
+            </WorkspaceSection>
+            <WorkspaceSection
                 label="Channels"
                 hint="New Channel"
                 onNew={member.role === "teacher" ? () => setOpen(true) : undefined}
@@ -87,14 +103,14 @@ export const WorkspaceSidebar = () => {
                     >
                         <CreateAssignMent title="เพิ่มการบ้าน" />
                         <SidebarItem
-                            icon={HashIcon}
+                            icon={EarthLock}
                             label={"ส่วนตัว"}
                             id={"private"}
                             type="assignment"
                             variant={pathname.includes("/private") ? "active" : "default"}
                         />
                         <SidebarItem
-                            icon={HashIcon}
+                            icon={Earth}
                             label={"สาธาระ"}
                             id={"public"}
                             type="assignment"
@@ -107,19 +123,19 @@ export const WorkspaceSidebar = () => {
                         hint="งานที่หมอบหมาย"
                     >
                         <SidebarItem
-                            icon={HashIcon}
-                            label={"สาธาระ"}
+                            icon={ClipboardCheck}
+                            label={"การบ้าน"}
                             id={"public"}
                             type="assignment"
                             variant={pathname.includes("/public") ? "active" : "default"}
                         />
-                        <SidebarItem
+                        {/* <SidebarItem
                             icon={HashIcon}
                             label={"ส่งแล้ว"}
                             id={"complete"}
                             type="assignment"
                             variant={pathname.includes("/complete") ? "active" : "default"}
-                        />
+                        /> */}
                     </WorkspaceSection>
                 )
             }
@@ -132,7 +148,7 @@ export const WorkspaceSidebar = () => {
                     member.role === "teacher" ? (
                         <SidebarItem
                             key={"create-check-in"}
-                            icon={HashIcon}
+                            icon={SquareCheckBig}
                             label={"สร้างเช็คชื่อ"}
                             id={"create-check-in"}
                             type="attendance"
@@ -141,7 +157,7 @@ export const WorkspaceSidebar = () => {
                     ) : (
                         <SidebarItem
                             key={"check-in"}
-                            icon={HashIcon}
+                            icon={SquareCheckBig}
                             label={"เช็คชื่อ"}
                             id={"check-in"}
                             type="attendance"
@@ -149,29 +165,37 @@ export const WorkspaceSidebar = () => {
                         />
                     )
                 }
-                <SidebarItem
+                {/* <SidebarItem
                     key={"recordn"}
                     icon={HashIcon}
                     label={"ประวัติการเช็คชื่อ"}
                     id={"record"}
                     type="attendance"
                     variant={pathname.includes("/record") ? "active" : "default"}
-                />
+                /> */}
             </WorkspaceSection>
             <WorkspaceSection
                 label="เริ่มเรียนออนไลน์"
                 hint="เริ่มเรียนออนไลน์"
             // onNew={member.role === "teacher" ? () => setOpen(true) : undefined}
             >
-                {
+                <SidebarItem
+                    key={"create-check-in"}
+                    icon={Video}
+                    label={"เริ่มต้นเรียนออนไลน์"}
+                    id={"stream"}
+                    type="stream"
+                    variant={pathname.includes("/stream") ? "active" : "default"}
+                />
+                {/* {
                     member.role === "teacher" ? (
                         <SidebarItem
                             key={"create-check-in"}
                             icon={HashIcon}
                             label={"เริ่มต้นเรียนออนไลน์"}
-                            id={"create-stream"}
+                            id={"stream"}
                             type="stream"
-                            variant={pathname.includes("/create-stream") ? "active" : "default"}
+                            variant={pathname.includes("/stream") ? "active" : "default"}
                         />
                     ) : (
                         <SidebarItem
@@ -183,7 +207,7 @@ export const WorkspaceSidebar = () => {
                             variant={pathname.includes("/check-in") ? "active" : "default"}
                         />
                     )
-                } 
+                } */}
             </WorkspaceSection>
             <WorkspaceSection
                 label="สมาชิก"

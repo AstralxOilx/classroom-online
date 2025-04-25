@@ -122,7 +122,7 @@ export const Toolbar = () => {
                     className="cursor-pointer rounded-md"
                     variant={"ghost"}
                 >
-                    <Info className="size-5" />
+                    {/* <Info className="size-5" /> */}
                 </Button>
             </div>
         </nav>

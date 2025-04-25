@@ -170,7 +170,7 @@ export const SignUpCard = ({ setState }: SignUpCardProps) => {
                         <FcGoogle className="size-5 absolute top-2.5 left-2.5" />
                         Continue with Google
                     </Button> */}
-                    <Button
+                    {/* <Button
                         disabled={pending}
                         onClick={() => onProviderSignUp("github")}
                         variant={"outline"}
@@ -179,7 +179,7 @@ export const SignUpCard = ({ setState }: SignUpCardProps) => {
                     >
                         <FaGithub className="size-5 absolute top-2.5 left-2.5" />
                         Continue with Github
-                    </Button>
+                    </Button> */}
                 </div>
                 <p className="text-xs text-muted-foreground">
                     คุณมีบัญชีอยู่แล้ว?&nbsp;

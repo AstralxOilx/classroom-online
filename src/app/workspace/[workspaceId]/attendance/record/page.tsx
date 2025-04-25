@@ -9,6 +9,7 @@ import { useCurrentMember } from '@/features/members/api/use-current-member';
 import { useRouter } from 'next/navigation';
 import { useWorkspaceId } from '@/hooks/use-workspace-id';
 import { LoaderCircle } from 'lucide-react';
+import RecordAttendance from '@/features/attendances/components/record-attendance';
 
 function CreateCheckInPage() {
 
@@ -20,13 +21,6 @@ function CreateCheckInPage() {
         workspaceId
     });
 
-    useEffect(() => {
-        if (!currentMember || !workspaceId) return; // รอให้ข้อมูลโหลดก่อน
-
-        if (currentMember.role !== "student") {
-            router.replace(`/workspace/${workspaceId}`);
-        }
-    }, [currentMember, workspaceId]);
 
     if (!currentMember || !workspaceId || isLoadingCurrentMember || status === "LoadingFirstPage") {
         return (
@@ -40,7 +34,7 @@ function CreateCheckInPage() {
         <>
             <Header title='ประวัติการเช็คชื่อ' />
             <div className="w-full h-full flex-1 flex flex-col items-center justify-center p-4 overflow-y-auto messages-scrollbar">
-
+                 
             </div>
         </>
     )

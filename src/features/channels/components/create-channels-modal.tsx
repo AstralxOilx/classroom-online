@@ -66,6 +66,7 @@ export const CreateChannelModal = () => {
                 <DialogHeader>
                     <DialogTitle>เพิ่ม Channel</DialogTitle>
                 </DialogHeader>
+                <DialogDescription></DialogDescription>
                 <form onSubmit={handleSubmit} className="space-y-4">
                     <Input
                         value={name}

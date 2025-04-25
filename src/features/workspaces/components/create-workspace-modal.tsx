@@ -12,8 +12,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
 import { useCreateWorkspace } from "../api/use-crate-workspace";
-import { useRouter } from "next/navigation";
-import { Toaster } from "@/components/ui/sonner";
+import { useRouter } from "next/navigation"; 
 import { toast } from "sonner"; 
 
 
@@ -42,7 +41,7 @@ export const CreateWorkspaceModal = () => {
 
         mutate({ name }, {
             onSuccess(id) {
-                toast.success("Workspace created");
+                toast.success("Classroom created");
                 router.push(`/workspace/${id}`);
                 handleClose();
             }
@@ -56,6 +55,7 @@ export const CreateWorkspaceModal = () => {
                 <DialogHeader>
                     <DialogTitle>สร้างห้องเรียนใหม่</DialogTitle>
                 </DialogHeader>
+                <DialogDescription>สร้างห้องเรียนใหม่</DialogDescription>
                 <form onSubmit={handleSubmit} className="space-y-4">
                     <Input
                         value={name}

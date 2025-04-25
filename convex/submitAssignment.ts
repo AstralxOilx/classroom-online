@@ -54,14 +54,14 @@ export const createSubmitAssignment = mutation({
     if (existingSubmission) {
       throw new Error("[ALREADY_SUBMITTED] คุณได้ส่งการบ้านนี้ไปแล้ว");
     }
- 
+
     const assignment = await ctx.db.get(args.assignmentId);
     if (!assignment) {
       throw new Error("ไม่พบการบ้านนี้!");
     }
- 
+
     const now = new Date();
-    const dueDate = new Date(assignment.dueDate);  
+    const dueDate = new Date(assignment.dueDate);
 
     //  console.log(now)
 
@@ -96,29 +96,45 @@ export const allowResubmission = mutation({
     const submit = await ctx.db.get(args.submitAssignmentId);
     if (!submit) throw new Error("ไม่พบข้อมูลการส่งงาน");
 
-    const member = await ctx.db
-      .query("members")
-      .withIndex("by_user_id", (q) =>
-        q.eq("userId", currentUserId),
-      )
-      .unique();
+    const assignment = await ctx.db.get(submit.assignmentId);
+    if (!assignment) throw new Error("ไม่พบการบ้าน");
 
-    if (!member || member.role !== "teacher") {
+    // const member = await ctx.db
+    //   .query("members")
+    //   .withIndex("by_user_id", (q) =>
+    //     q.eq("userId", currentUserId),
+    //   )
+    //   .unique();
+
+
+    // if (!member || member.role !== "teacher") {
+    //   throw new Error("Unauthorized");
+    // }
+
+    const members = await ctx.db
+      .query("members")
+      .withIndex("by_user_id", (q) => q.eq("userId", currentUserId))
+      .collect();
+
+    const isTeacher = members.some((m) => m.role === "teacher");
+
+    if (!isTeacher) {
       throw new Error("Unauthorized");
     }
 
-    const feedback = await ctx.db
-      .query("feedback")
-      .withIndex("by_submitAssignmentId", (q) => q.eq("submitAssignmentId",args.submitAssignmentId))
-      .unique();
 
-    if(!feedback){
-      throw new Error("ไม่พบข้อมูลขอเสนอแนะ");
-    }
+    // const feedback = await ctx.db
+    //   .query("feedback")
+    //   .withIndex("by_submitAssignmentId", (q) => q.eq("submitAssignmentId", args.submitAssignmentId))
+    //   .unique();
 
-    await ctx.db.patch(feedback._id,{
-      score:0, 
-    })
+    // if (!feedback) {
+    //   throw new Error("ไม่พบข้อมูลขอเสนอแนะ");
+    // }
+
+    // await ctx.db.patch(feedback._id, {
+    //   score: 0,
+    // })
 
     // ดึงไฟล์ทั้งหมดที่แนบมากับการส่งงานนี้
     const files = await ctx.db
@@ -138,11 +154,29 @@ export const allowResubmission = mutation({
       await ctx.db.delete(file._id);
     }
 
+
     // เปลี่ยนสถานะเป็นส่งใหม่ได้
     await ctx.db.patch(args.submitAssignmentId, {
       status: "canResubmit",
       canResubmit: true,
     });
+
+
+
+    await ctx.db.insert("notifications", {
+      userId: submit.userId,
+      workspaceId: submit.workspaceId,
+      type: "resubmit-allowed",
+      title: `สามารถส่งการบ้านใหม่ได้: ${assignment.name}`,
+      description: "คุณได้รับสิทธิ์ในการส่งการบ้านใหม่อีกครั้ง",
+      data: {
+        assignmentId: assignment._id,
+        submitAssignmentId: submit._id,
+      },
+      read: false,
+      createdAt: new Date().toISOString(),
+    });
+
   },
 });
 
@@ -161,16 +195,28 @@ export const resubmitAssignment = mutation({
     const currentUserId = await auth.getUserId(ctx);
     if (!currentUserId) throw new Error("Unauthorized");
 
-    const member = await ctx.db
-      .query("members")
-      .withIndex("by_user_id", (q) =>
-        q.eq("userId", currentUserId),
-      )
-      .unique();
+    // const member = await ctx.db
+    //   .query("members")
+    //   .withIndex("by_user_id", (q) =>
+    //     q.eq("userId", currentUserId),
+    //   )
+    //   .unique();
 
-    if (!member || member.role !== "student") {
+    // if (!member || member.role !== "student") {
+    // throw new Error("Unauthorized");
+    // }
+
+    const members = await ctx.db
+      .query("members")
+      .withIndex("by_user_id", (q) => q.eq("userId", currentUserId))
+      .collect();
+
+    const isTeacher = members.some((m) => m.role === "student");
+
+    if (!isTeacher) {
       throw new Error("Unauthorized");
     }
+
 
     const submit = await ctx.db.get(args.submitAssignmentId);
     if (!submit) throw new Error("ไม่พบข้อมูลการส่งงาน");

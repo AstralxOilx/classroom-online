@@ -28,7 +28,7 @@ export const WorkspaceSection = ({
                 <div className="flex items-center px-0 group">
                     <Button
                         onClick={toggle}
-                        variant={"transparent"}
+                        variant={"secondary"}
                         className="p-0.5 text-sm text-gray-800 shrink-0 "
                     >
                         <span className=" truncate ">{label}</span>
@@ -50,7 +50,7 @@ export const WorkspaceSection = ({
                                 <Button
                                     onClick={onNew}
                                     size={"icon"}
-                                    variant={"transparent"}
+                                    variant={"secondary"}
                                     className="opacity-0 group-hover:opacity-100 transition-opacity ml-auto p-0.5 text-sm text-gray-800 size-6 shrink-0"
                                 >
                                     <PlusIcon className="size-5" />

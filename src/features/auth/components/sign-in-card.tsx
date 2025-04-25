@@ -97,7 +97,7 @@ export const SignInCard = ({ setState }: SignInCardProps) => {
                         <FcGoogle className="size-5 absolute top-2.5 left-2.5" />
                         Continue with Google
                     </Button> */}
-                    <Button
+                    {/* <Button
                         disabled={pending}
                         onClick={() => onProviderSignIn("github")}
                         variant={"outline"}
@@ -106,7 +106,7 @@ export const SignInCard = ({ setState }: SignInCardProps) => {
                     >
                         <FaGithub className="size-5 absolute top-2.5 left-2.5" />
                         Continue with Github
-                    </Button>
+                    </Button> */}
                 </div>
                 <p className="text-xs text-muted-foreground">
                     คุณยังไม่มีบัญชี?&nbsp;
